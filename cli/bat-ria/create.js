@@ -25,22 +25,15 @@ cli.command = 'create';
  */
 cli.description = '添加新的一组 Action / Model / View 和对应的 Action 配置。';
 
-/**
- * 命令用法信息
- *
- * @type {string}
- */
-cli.usage = 'edp bat-ria create <path>';
-
 cli.options = [ 'type:' ];
 
 var path = require( 'path' );
-var genAction = require( '../util/gen-action' );
-var genActionConfig = require( '../util/gen-action-config' );
-var genModel = require( '../util/gen-model' );
-var genView = require( '../util/gen-view' );
-var genTemplate = require( '../util/gen-template' );
-var moduleToFile = require( '../util/module-to-file' );
+var genAction = require( '../../lib/util/gen-action' );
+var genActionConfig = require( '../../lib/util/gen-action-config' );
+var genModel = require( '../../lib/util/gen-model' );
+var genView = require( '../../lib/util/gen-view' );
+var genTemplate = require( '../../lib/util/gen-template' );
+var moduleToFile = require( '../../lib/util/module-to-file' );
 
 /**
  * 模块命令行运行入口
@@ -64,9 +57,9 @@ cli.main = function ( args ) {
     var pathSeg = pagePath.slice( 1 ).split( '/' );
     var lastIndex = pathSeg.length - 1;
     var templateName = pathSeg[ lastIndex ];
-    var upFirstAlpha = require( '../util/up-first-alpha' );
+    var upFirstAlpha = require( '../../lib/util/up-first-alpha' );
     pathSeg[ lastIndex ] = upFirstAlpha( templateName );
-    
+
     var type;
     if ( args[ 1 ] ) {
         type = args[ 0 ].toLowerCase();
