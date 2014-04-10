@@ -12,7 +12,8 @@
         "edp-config": ">=0.4.2",
         "semver": ">=2.1.0",
         "etpl": ">=2.0",
-        "mkdirp": "~0.3.3"
+        "mkdirp": "~0.3.3",
+        "q": ">=1.0"
     },
     "peerDependencies": {
         "edp": "~0.6.8-beta.14"

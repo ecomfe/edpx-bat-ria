@@ -17,10 +17,14 @@ define(function (require) {
     function {{{model}}}() {
         {{{type}}}Model.apply(this, arguments);{{#eq type "List"}}
 
-        // 绑定列表请求API配置（必须）
+        // 列表请求器 (*)
         // this.listRequester = api.someList;{{/eq}}{{#eq type "Form"}}
 
-        {{/eq}}
+        // 表单数据请求器
+        // this.formRequester = api.someDetail;
+
+        // 表单提交请求器 (*)
+        // this.submitRequester = api.someUpdate;{{/eq}}
     }
 
     /**
@@ -39,6 +43,19 @@ define(function (require) {
     {{{model}}}.prototype.defaultArgs = {
         order: 'desc',
         pageSize: 15
+    };
+{{/eq}}
+{{#eq type "Form"}}
+    /**
+     * @inheritDoc
+     */
+    {{{model}}}.prototype.defaultArgs = {};
+
+    /**
+     * @inheritDoc
+     */
+    {{{model}}}.prototype.getExtraData = function () {
+        return {};
     };
 {{/eq}}
     // return模块

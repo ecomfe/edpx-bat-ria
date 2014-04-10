@@ -26,14 +26,12 @@ define(function (require) {
     /**
      * @inheritDoc
      */
-    {{{view}}}.prototype.uiProperties = {
-    };
+    {{{view}}}.prototype.uiProperties = {};
 
     /**
      * @inheritDoc
      */
-    {{{view}}}.prototype.uiEvents = {
-    };
+    {{{view}}}.prototype.uiEvents = {};
 
     require('er/util').inherits({{{view}}}, {{{type}}}View);
     return {{{view}}};

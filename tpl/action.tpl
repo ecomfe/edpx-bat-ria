@@ -4,7 +4,7 @@
  */
 
 define(function (require) {
-    var Action = require('bat-ria/mvc/{{{type}}}Action');
+    var {{{type}}}Action = require('bat-ria/mvc/{{{type}}}Action');
 
     /**
      * [Please Input Action Description]
@@ -12,7 +12,7 @@ define(function (require) {
      * @constructor
      */
     function {{{action}}}() {
-        Action.apply(this, arguments);
+        {{{type}}}Action.apply(this, arguments);
     }
 
     {{{action}}}.prototype.modelType = require('{{{model}}}');
@@ -24,9 +24,8 @@ define(function (require) {
      * @protected
      * @override
      */
-    {{{action}}}.prototype.initBehavior = function () {
-    };
+    {{{action}}}.prototype.initBehavior = function () {};
 
-    require('er/util').inherits({{{action}}}, Action);
+    require('er/util').inherits({{{action}}}, {{{type}}}Action);
     return {{{action}}};
 });
