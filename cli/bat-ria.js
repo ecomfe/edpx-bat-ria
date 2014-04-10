@@ -12,13 +12,6 @@
 var cli = {};
 
 /**
- * 命令名称
- *
- * @type {string}
- */
-cli.command = 'bat-ria';
-
-/**
  * 命令描述信息
  *
  * @type {string}
@@ -26,19 +19,12 @@ cli.command = 'bat-ria';
 cli.description = '品牌广告业务端脚手架';
 
 /**
- * 命令用法信息
- *
- * @type {string}
- */
-cli.usage = 'edp bat-ria';
-
-/**
  * 模块命令行运行入口
  * 
  * @param {Array} args 命令运行参数
  */
 cli.main = function (args) {
-    console.log('Hello bat-ria!');
+    console.log( 'See `edp bat-ria --help`' );
 };
 
 /**

@@ -57,10 +57,10 @@ cli.main = function ( args, opts ) {
 
     var mkdirp = require( 'mkdirp' );
     mkdirp.sync( path.resolve( dir, 'src/common' ) );
-    require( '../util/copy-image' )( projectInfo );
-    require( '../util/gen-main-module' )( projectInfo );
-    require( '../util/gen-common-config' )( projectInfo );
-    require( '../util/gen-constants' )( projectInfo );
+    require( '../../lib/util/copy-image' )( projectInfo );
+    require( '../../lib/util/gen-main-module' )( projectInfo );
+    require( '../../lib/util/gen-common-config' )( projectInfo );
+    require( '../../lib/util/gen-constants' )( projectInfo );
 
     var edpPackage = require( 'edp-package' );
     edpPackage.importFromRegistry( 
@@ -75,8 +75,8 @@ cli.main = function ( args, opts ) {
                         'bat-ria',
                         dir,
                         function () {
-                            require( '../util/gen-main-less' )( projectInfo );
-                            require( '../util/gen-index' )( projectInfo );
+                            require( '../../lib/util/gen-main-less' )( projectInfo );
+                            require( '../../lib/util/gen-index' )( projectInfo );
                         }
                     );
                 }
