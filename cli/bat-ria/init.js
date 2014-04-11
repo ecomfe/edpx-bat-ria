@@ -52,37 +52,71 @@ cli.main = function ( args, opts ) {
 
     var edpProject = require( 'edp-project' );
     var projectInfo = edpProject.init( dir );
-    edpProject.webserver.createConfigFile( projectInfo );
     edpProject.build.createConfigFile( projectInfo );
 
     var mkdirp = require( 'mkdirp' );
     mkdirp.sync( path.resolve( dir, 'src/common' ) );
-    require( '../../lib/util/copy-image' )( projectInfo );
     require( '../../lib/util/gen-main-module' )( projectInfo );
     require( '../../lib/util/gen-common-config' )( projectInfo );
     require( '../../lib/util/gen-constants' )( projectInfo );
+    require( '../../lib/util/gen-webserver-config' )( projectInfo );
 
+    var copies = [
+        { source: '../../img', target: 'src/common/img' },
+        { source: '../../css', target: 'src/common/css' },
+        { source: '../../tools', target: 'tools' }
+    ];
+    require( '../../lib/util/copy' )( projectInfo, copies );
+
+    var Q = require( 'q' );
+    var exec = require( 'child_process' ).exec;
     var edpPackage = require( 'edp-package' );
-    edpPackage.importFromRegistry( 
-        'ef',
-        dir,
-        function () {
-            edpPackage.importFromRegistry(
-                'esf-ms',
-                dir,
-                function () {
-                    edpPackage.importFromRegistry(
-                        'bat-ria',
-                        dir,
-                        function () {
-                            require( '../../lib/util/gen-main-less' )( projectInfo );
-                            require( '../../lib/util/gen-index' )( projectInfo );
-                        }
-                    );
-                }
-            );
-        }
-    );
+
+    function npmInstall() {
+        var deferred = Q.defer();
+
+        exec( 'npm install ' + this, function ( error, stdout, stderr ) {
+            if ( error ) {
+                console.error( stderr );
+                deferred.reject( error );
+            }
+            else {
+                console.log( stdout );
+                deferred.resolve( stdout );
+            }
+        } );
+        return deferred.promise;
+    }
+
+    function edpImport() {
+        var deferred = Q.defer();
+
+        edpPackage.importFromRegistry( this, dir, function ( error, pkg ) {
+            if ( error ) {
+                deferred.reject( error );
+            }
+            else {
+                deferred.resolve( pkg );
+            }
+        } );
+
+        return deferred.promise;
+    }
+
+    var npmPkgs = [ 'chalk' ];
+    var edpPkgs = [ 'ef', 'esf-ms', 'bat-ria' ];
+
+    var tasks = npmPkgs.map( function (pkg) {
+        return npmInstall.bind(pkg);
+    } ).concat( edpPkgs.map( function (pkg) {
+        return edpImport.bind(pkg);
+    } ) );
+
+    tasks.reduce( Q.when, null )
+        .then( function () {
+            require( '../../lib/util/gen-main-less' )( projectInfo );
+            require( '../../lib/util/gen-index' )( projectInfo );
+        } );
 };
 
 /**

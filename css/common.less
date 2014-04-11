@@ -1,0 +1,47 @@
+// override ESF-MS settings
+@sys-logo-width: 177px;
+@sys-logo-height: 34px;
+@sys-nav-height: 27px;
+@sys-nav-item-bg-gradient: false;
+@sys-nav-item-color: #FFFFFF;
+@sys-nav-item-color-current: #1242A6;
+@sys-nav-item-border-top-length: 0;
+
+.nav {
+    a,
+    a:link,
+    a:visited,
+    a:hover,
+    a:active {
+        display: block;
+        width: 78px;
+        height: 27px;
+        outline: 0 none;
+        padding: 0;
+        text-align: center;
+        line-height: 27px;
+        text-decoration: none;
+    }
+
+    li a {
+        background: url(../img/menu.png) no-repeat -1px -63px;
+    }
+
+    .nav-item-current a {
+        background: url(../img/menu.png) no-repeat -1px -36px;
+    }
+
+    .nav-item,
+    .nav-item-current {
+        background: none;
+    }
+}
+
+@sys-userinfo-color: #FFFFFF;
+.user-info {
+    color: darken(@sys-userinfo-color, 10);
+}
+
+.copyright {
+    text-align: center;
+}
