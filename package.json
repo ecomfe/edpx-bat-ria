@@ -1,20 +1,20 @@
 {
     "name": "edpx-bat-ria",
     "description": "EDP extension for RIA system for Brand Ads Team.",
-    "version": "0.1.0",
+    "version": "0.1.2",
     "main": "./cli/bat-ria.js",
     "contributors": [
         { "name": "justineo", "email": "justice360@gmail.com" }
     ],
     "dependencies": {
+        "edp-core": ">=1.0.12",
         "edp-project": ">=0.4.16",
         "edp-package": ">=0.4.4",
         "edp-codegen": ">=0.4.2",
         "edp-config": ">=0.4.2",
         "semver": ">=2.1.0",
         "etpl": ">=2.0",
-        "mkdirp": "~0.3.3",
-        "q": ">=1.0"
+        "mkdirp": "~0.3.3"
     },
     "repository": "git://github.com/ecomfe/edpx-bat-ria"
 }

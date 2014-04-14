@@ -1,5 +1,5 @@
 /**
- * 命令行配置项
+ * 初始化系统代码框架
  *
  * @inner
  * @type {Object}
@@ -68,12 +68,15 @@ cli.main = function ( args, opts ) {
     ];
     require( '../../lib/util/copy' )( projectInfo, copies );
 
-    var Q = require( 'q' );
+    var Deferred = require( 'edp-core' ).Deferred;
+    console.log(Deferred);
     var exec = require( 'child_process' ).exec;
     var edpPackage = require( 'edp-package' );
 
     function npmInstall() {
-        var deferred = Q.defer();
+        var deferred = new Deferred;
+
+        console.log('npm install ' + this);
 
         exec( 'npm install ' + this, function ( error, stdout, stderr ) {
             if ( error ) {
@@ -89,7 +92,9 @@ cli.main = function ( args, opts ) {
     }
 
     function edpImport() {
-        var deferred = Q.defer();
+        var deferred = new Deferred;
+
+        console.log('edp import ' + this);
 
         edpPackage.importFromRegistry( this, dir, function ( error, pkg ) {
             if ( error ) {
@@ -106,13 +111,16 @@ cli.main = function ( args, opts ) {
     var npmPkgs = [ 'chalk' ];
     var edpPkgs = [ 'ef', 'esf-ms', 'bat-ria' ];
 
-    var tasks = npmPkgs.map( function (pkg) {
-        return npmInstall.bind(pkg);
-    } ).concat( edpPkgs.map( function (pkg) {
-        return edpImport.bind(pkg);
+    var tasks = npmPkgs.map( function ( pkg ) {
+        return npmInstall.bind( pkg );
+    } ).concat( edpPkgs.map( function ( pkg ) {
+        return edpImport.bind( pkg );
     } ) );
 
-    tasks.reduce( Q.when, null )
+    // 每次迭代将上一个task返回的`promise`和下一个task用`then`关联起来
+    tasks.reduce( function ( prev, task ) {
+        return prev.then( task );
+    }, Deferred.resolved() )
         .then( function () {
             require( '../../lib/util/gen-main-less' )( projectInfo );
             require( '../../lib/util/gen-index' )( projectInfo );

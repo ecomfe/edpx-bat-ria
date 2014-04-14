@@ -1,10 +1,5 @@
 /**
- * @file riaproject genpage子命令
- * @author errorrik[errorrik@gmail.com], Justineo[justice360@gmail.com]
- */
-
-/**
- * 命令行配置项
+ * 创建内容
  *
  * @inner
  * @type {Object}
@@ -23,17 +18,28 @@ cli.command = 'create';
  *
  * @type {string}
  */
-cli.description = '添加新的一组 Action / Model / View 和对应的 Action 配置。';
+cli.description = '添加新内容';
 
-cli.options = [ 'type:' ];
+/**
+ * 命令选项信息
+ *
+ * @type {Array}
+ */
+cli.options = [];
 
-var path = require( 'path' );
-var genAction = require( '../../lib/util/gen-action' );
-var genActionConfig = require( '../../lib/util/gen-action-config' );
-var genModel = require( '../../lib/util/gen-model' );
-var genView = require( '../../lib/util/gen-view' );
-var genTemplate = require( '../../lib/util/gen-template' );
-var moduleToFile = require( '../../lib/util/module-to-file' );
+var creators = {
+    action: require( '../../lib/util/create-action' ),
+    api: require( '../../lib/util/create-api' )
+};
+var typeCreator = {
+    action: 'action',
+    base: 'action',
+    list: 'action',
+    form: 'action',
+    api: 'api'
+};
+
+var logger = require( '../../tools/logger' );
 
 /**
  * 模块命令行运行入口
@@ -48,67 +54,20 @@ cli.main = function ( args ) {
     if ( !projectInfo ) {
         return;
     }
-
-    var pagePath = args[ args.length - 1 ];
-    if ( pagePath[ 0 ] !== '/' ) {
-        pagePath = '/' + pagePath;
+    if ( !args[ 0 ] ) {
+        logger.error( 'CREATE', 'ERROR', '<type> is required for `bat-ria create`.' );
+        return;
     }
 
-    var pathSeg = pagePath.slice( 1 ).split( '/' );
-    var lastIndex = pathSeg.length - 1;
-    var templateName = pathSeg[ lastIndex ];
-    var upFirstAlpha = require( '../../lib/util/up-first-alpha' );
-    pathSeg[ lastIndex ] = upFirstAlpha( templateName );
+    var type = args[ 0 ] = args[ 0 ].toLowerCase();
 
-    var type;
-    if ( args[ 1 ] ) {
-        type = args[ 0 ].toLowerCase();
+    if ( !typeCreator[ type ] ) {
+        logger.error( 'CREATE', 'ERROR', '"' + type + '" is not a valid type for `bat-ria create`.' );
+        return;
     }
-    if ( [ 'base', 'list', 'form' ].indexOf( type ) === -1 ) {
-        type = 'base';
+    else {
+        creators[ typeCreator[ type ] ]( projectInfo, args );
     }
-    type = upFirstAlpha( type );
-
-    var action = pathSeg.join( '/' );
-    var model = action + 'Model';
-    var view = action + 'View';
-    var templateFile = path.resolve( moduleToFile( projectInfo, action ), '..', templateName ) + '.tpl.html';
-
-    var actionSegs = action.split( '/' );
-    var templateTarget = 'TPL_' + actionSegs.join( '_' ).toLowerCase();
-    var templateClasses = [];
-    templateClasses.push( actionSegs.join( '-' ).toLowerCase() );
-    templateClasses = templateClasses.join( ' ' );
-
-    genActionConfig( projectInfo, {
-        actionName: action, 
-        actionPath: pagePath
-    } );
-
-    genAction( projectInfo, {
-        module: action,
-        model: './' + pathSeg[ lastIndex ] + 'Model',
-        view: './' + pathSeg[ lastIndex ] + 'View',
-        type: type
-    } );
-
-    genModel( projectInfo, {
-        module: model,
-        type: type
-    } );
-
-    genView( projectInfo, {
-        module: view,
-        templateTarget: templateTarget,
-        templateFile: './' + path.basename( templateFile ),
-        type: type
-    } );
-
-    genTemplate( projectInfo, {
-        file: templateFile, 
-        target: templateTarget,
-        classes: templateClasses
-    } );
 };
 
 /**
