@@ -69,53 +69,49 @@ cli.main = function ( args, opts ) {
     require( '../../lib/util/copy' )( projectInfo, copies );
 
     var Deferred = require( 'edp-core' ).Deferred;
-    console.log(Deferred);
-    var exec = require( 'child_process' ).exec;
     var edpPackage = require( 'edp-package' );
+    var exec = require( 'child_process' ).exec;
 
-    function npmInstall() {
-        var deferred = new Deferred;
+    function npmInstall( pkg ) {
+        return function () {
+            var deferred = new Deferred;
 
-        console.log('npm install ' + this);
-
-        exec( 'npm install ' + this, function ( error, stdout, stderr ) {
-            if ( error ) {
-                console.error( stderr );
-                deferred.reject( error );
-            }
-            else {
-                console.log( stdout );
-                deferred.resolve( stdout );
-            }
-        } );
-        return deferred.promise;
+            exec( 'npm install ' + pkg, function ( error, stdout, stderr ) {
+                if ( error ) {
+                    console.error( stderr );
+                    deferred.reject( error );
+                }
+                else {
+                    console.log( stdout );
+                    deferred.resolve( stdout );
+                }
+            } );
+            return deferred.promise;
+        };
     }
 
-    function edpImport() {
-        var deferred = new Deferred;
+    function edpImport( pkg ) {
+        return function () {
+            var deferred = new Deferred;
 
-        console.log('edp import ' + this);
+            edpPackage.importFromRegistry( pkg, dir, function ( error, pkg ) {
+                if ( error ) {
+                    deferred.reject( error );
+                }
+                else {
+                    deferred.resolve( pkg );
+                }
+            } );
 
-        edpPackage.importFromRegistry( this, dir, function ( error, pkg ) {
-            if ( error ) {
-                deferred.reject( error );
-            }
-            else {
-                deferred.resolve( pkg );
-            }
-        } );
-
-        return deferred.promise;
+            return deferred.promise;
+        };
     }
 
     var npmPkgs = [ 'chalk' ];
     var edpPkgs = [ 'ef', 'esf-ms', 'bat-ria' ];
 
-    var tasks = npmPkgs.map( function ( pkg ) {
-        return npmInstall.bind( pkg );
-    } ).concat( edpPkgs.map( function ( pkg ) {
-        return edpImport.bind( pkg );
-    } ) );
+    var tasks = npmPkgs.map( npmInstall )
+        .concat( edpPkgs.map( edpImport ) );
 
     // 每次迭代将上一个task返回的`promise`和下一个task用`then`关联起来
     tasks.reduce( function ( prev, task ) {

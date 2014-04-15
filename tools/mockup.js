@@ -1,5 +1,5 @@
 /**
- * @file 处理edp-webserver的mockup相关功能
+ * @file 处理mockup相关功能
  * @author Justineo(justice360@gmail.com)
  */
 var qs = require('querystring');
@@ -42,6 +42,9 @@ mockup.load = function(request) {
     }
 }
 
+/**
+ * 返回判断是否需要加载mockup的函数
+ */
 mockup.getLocation = function () {
     return function (request) {
         // 对于非`data/`开头的请求不处理
@@ -64,6 +67,9 @@ mockup.getLocation = function () {
     };
 };
 
+/**
+ * 返回mockup请求的处理函数
+ */
 mockup.getHandlers = function () {
     return function (context) {
         try {
@@ -124,6 +130,97 @@ mockup.getHandlers = function () {
             context.start();
         }
     };
+};
+
+/**
+ * 返回普通成功mockup请求
+ *
+ * @param {Object} result 返回的结果数据
+ */
+mockup.ok = function (result) {
+    return {
+        success: 'true',
+        result: result || {}
+    };
+};
+
+/**
+ * 返回读取session成功mockup请求
+ *
+ * @param {Object} result 返回的结果数据
+ */
+mockup.session = function (result) {
+    return {
+        success: 'true',
+        result: result || {
+            visitor: {
+                username: '访问者',
+                roleId: 1,
+                id: 123
+            },
+            adOwner: {
+                username: '广告主',
+                roleId: 1,
+                id: 124
+            }
+        }
+    };
+};
+
+/**
+ * 返回列表类型成功mockup请求
+ *
+ * @param {Object} result 返回的结果数据
+ * @param {Object} page 返回分页数据的元数据
+ */
+mockup.list = function (result, page) {
+    page = page || {};
+
+    return {
+        success: 'true',
+        page: {
+            totalCount: page.totalCount || 100,
+            pageNo: page.pageNo || 1,
+            pageSize: page.pageSize || 15,
+            orderBy: page.orderBy || 'id',
+            order: page.order || 'desc',
+            result: result || []
+        }
+    };
+};
+
+/**
+ * 返回普通失败mockup请求
+ *
+ * @param {Object} msg 失败信息
+ */
+mockup.fail = function (msg) {
+    return {
+        success: 'false',
+        message: msg
+    };
+};
+
+/**
+ * 返回表单项验证失败mockup请求
+ *
+ * @param {Object} fields 表单项name和失败信息对应关系信息
+ */
+mockup.fieldFail = function (fields) {
+    return mockup.failure({
+        message: {
+            field: fields || {}
+        }
+    });
+};
+
+/**
+ * 返回全局失败mockup请求
+ *
+ * @param {Object} msg 全局失败响应提示信息
+ */
+mockup.globalFail = function (msg) {
+    return mockup.failure(msg && msg.toString() || '');
 };
 
 module.exports = exports = mockup;
