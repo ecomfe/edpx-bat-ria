@@ -45,4 +45,4 @@ edp bat-ria create
     * `<api-path>` - API 对应的接口路径，如 `/data/promotion/173/list`
     * `<api-type>` - API 返回的数据类型，用来根据对应的模板生成初始的 mockup，可用的类型有 `ok` / `list` / `form` / `global` / `field` / `download`，其中 `download` 类型的 API 目前不会生成 mockup 数据
     
-仅输入 `edp bat-ria create` 或缺失参数时，可以根据向导的提示按步骤填写。
+**仅输入 `edp bat-ria create` 或缺失参数时，可以根据向导的提示按步骤填写。**
