@@ -17,6 +17,8 @@ define(
             // require( '../report/config' );
         }
 
+        requireConfigs();
+
         /**
          * 初始化UI，填写用户信息等
          *

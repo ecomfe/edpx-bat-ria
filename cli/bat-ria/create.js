@@ -27,6 +27,11 @@ cli.description = '添加新内容';
  */
 cli.options = [];
 
+var chalk = require( 'chalk' );
+var read = require( 'read' );
+var logger = require( '../../tools/logger' );
+var Deferred = require( 'edp-core' ).Deferred;
+
 var creators = {
     action: require( '../../lib/util/create-action' ),
     api: require( '../../lib/util/create-api' )
@@ -39,7 +44,29 @@ var typeCreator = {
     api: 'api'
 };
 
-var logger = require( '../../tools/logger' );
+function readType( callback ) {
+    logger.verbose( 'ria', 'INFO', 'Please enter <type> for `bat-ria create`.' );
+    console.log( chalk.bold.green( 'action' ) + ' | list | form | api' );
+    read({
+        prompt: '<type>: ',
+        'default': 'action'
+    }, function ( err, result, isDefault ) {
+        if ( err ) {
+            logger.error( 'ria', 'ERROR', err.message );
+            return;
+        }
+
+        var type = result.toLowerCase();
+
+        if ( !typeCreator[ type ] ) {
+            logger.error( 'ria', 'ERROR', '"' + type + '" is not a valid type for `bat-ria create`.' );
+            readType( callback );
+            return;
+        }
+
+        callback && callback( type );
+    });
+}
 
 /**
  * 模块命令行运行入口
@@ -52,18 +79,17 @@ cli.main = function ( args ) {
     var projectInfo = edpProject.getInfo( dir );
 
     if ( !projectInfo ) {
-        return;
-    }
-    if ( !args[ 0 ] ) {
-        logger.error( 'CREATE', 'ERROR', '<type> is required for `bat-ria create`.' );
+        logger.error( 'ria', 'ERROR', 'Project info is not found.' );
         return;
     }
 
-    var type = args[ 0 ] = args[ 0 ].toLowerCase();
-
-    if ( !typeCreator[ type ] ) {
-        logger.error( 'CREATE', 'ERROR', '"' + type + '" is not a valid type for `bat-ria create`.' );
-        return;
+    var type = args[ 0 ];
+    // no `<type>` specified
+    if ( !type ) {
+        readType( function ( type ) {
+            args[ 0 ] = type;
+            creators[ typeCreator[ type ] ]( projectInfo, args );
+        } );
     }
     else {
         creators[ typeCreator[ type ] ]( projectInfo, args );

@@ -1,5 +1,5 @@
 /**
- * @file riaproject主命令
+ * @file bat-ria主命令
  * @author Justineo[justice360@gmail.com]
  */
 

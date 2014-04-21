@@ -34,8 +34,8 @@
 require.config({
     baseUrl: '{{{loaderBaseUrl}}}',
     paths: { {{#forEach loaderPaths}}
-        {{{key}}}: '{{{value}}}'{{^last}},{{/last}}
-    {{/forEach}} },
+        {{{key}}}: '{{{value}}}'{{^last}},{{/last}}{{/forEach}}
+    },
     packages: [ {{#loaderPackages}}
         {
             name: '{{{name}}}',

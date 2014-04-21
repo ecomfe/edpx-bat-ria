@@ -1,25 +1,31 @@
 /**
  * @file 处理格式化日志输出
+ * 输出格式为`edp ERROR The argument is invalid.`
  * @author Justineo(justice360@gmail.com)
  */
 var chalk = require('chalk');
+
+var logger = {};
 
 function log(mod, status, msg, color) {
     var paint = chalk[color] || function(msg) { return msg };
     console.log(mod + ' ' + paint(status) + ' ' + msg);
 }
 
-var logger = {
-    info: log,
-    ok:  function(mod, status, msg) {
-        log(mod, status, msg, 'green');
-    },
-    warn: function(mod, status, msg) {
-        log(mod, status, msg, 'yellow');
-    },
-    error: function(mod, status, msg) {
-        log(mod, status, msg, 'red');
-    }
+var levels = {
+    info: { color: 'gray' },
+    ok: { color: 'green' },
+    verbose: { color: 'blue' },
+    warn: { color: 'yellow' },
+    error: { color: 'red' }
+};
+
+for (level in levels) {
+    logger[level] = (function (color) {
+        return function (mod, status, msg) {
+            log(mod, status, msg, color);
+        };
+    })(levels[level].color);
 };
 
 module.exports = exports = logger;

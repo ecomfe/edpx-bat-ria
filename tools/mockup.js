@@ -33,7 +33,7 @@ mockup.load = function(request) {
             return require(mockModuleName);
         }
         catch (e) {
-            logger.error('MOCKUP', 'MISS', path);
+            logger.error('edp', 'ERROR', 'Mockup data not found for `' + path + '`');
             return null;
         }
     }
@@ -82,14 +82,14 @@ mockup.getHandlers = function () {
                 return;
             }
 
-            logger.ok('MOCKUP', 'FOUND', request.pathname);
+            logger.ok('edp', 'OK', 'Mockup data found for `' + request.pathname + '`');
 
             // 如果查询参数包含path信息，则默认使用该path
             var query = qs.parse(request.search.substr(1));
             var path;
             var reqHandlerKey;
             if (path = query.path) {
-                logger.ok('MOCKUP', 'PATH', path);
+                logger.ok('edp', 'OK', 'Mockup data redirected to `' + request.pathname + '`');
 
                 // 初始化对应的响应处理器名称，
                 // e.g. GET/b/c其对应的处理器：get_b_c
@@ -126,7 +126,7 @@ mockup.getHandlers = function () {
         }
         catch (e) {
             context.status = 500;
-            logger.error('MOCKUP', 'ERROR', e.toString());
+            logger.error('edp', 'ERROR', e.toString());
             context.start();
         }
     };

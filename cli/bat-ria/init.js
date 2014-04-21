@@ -56,10 +56,16 @@ cli.main = function ( args, opts ) {
 
     var mkdirp = require( 'mkdirp' );
     mkdirp.sync( path.resolve( dir, 'src/common' ) );
+
     require( '../../lib/util/gen-main-module' )( projectInfo );
     require( '../../lib/util/gen-common-config' )( projectInfo );
     require( '../../lib/util/gen-constants' )( projectInfo );
     require( '../../lib/util/gen-webserver-config' )( projectInfo );
+
+    // 生成默认的API配置和mockup
+    var createApi = require( '../../lib/util/create-api' );
+    createApi( projectInfo, [ 'api', 'constants', '/data/system/constants', 'ok' ] );
+    createApi( projectInfo, [ 'api', 'user', '/data/system/user', 'session' ] );
 
     var copies = [
         { source: '../../img', target: 'src/common/img' },
@@ -114,13 +120,15 @@ cli.main = function ( args, opts ) {
         .concat( edpPkgs.map( edpImport ) );
 
     // 每次迭代将上一个task返回的`promise`和下一个task用`then`关联起来
-    tasks.reduce( function ( prev, task ) {
-        return prev.then( task );
-    }, Deferred.resolved() )
+    tasks
+        .reduce( function ( prev, task ) {
+            return prev.then( task );
+        }, Deferred.resolved() )
         .then( function () {
             require( '../../lib/util/gen-main-less' )( projectInfo );
             require( '../../lib/util/gen-index' )( projectInfo );
         } );
+
 };
 
 /**

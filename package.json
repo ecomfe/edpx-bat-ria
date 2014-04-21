@@ -13,8 +13,10 @@
         "edp-codegen": ">=0.4.2",
         "edp-config": ">=0.4.2",
         "semver": ">=2.1.0",
-        "etpl": ">=2.0",
-        "mkdirp": "~0.3.3"
+        "handlebars": "~1.0",
+        "mkdirp": "~0.3.3",
+        "read": "~1.0.5",
+        "chalk": "~0.4.0"
     },
     "repository": "git://github.com/ecomfe/edpx-bat-ria"
 }
