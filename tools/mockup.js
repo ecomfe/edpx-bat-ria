@@ -79,6 +79,8 @@ mockup.getHandlers = function () {
 
             var reqHandler = mockup.load(request);
             if (!reqHandler) {
+                context.status = 404;
+                context.start();
                 return;
             }
 
