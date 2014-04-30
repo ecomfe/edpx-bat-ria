@@ -13,8 +13,8 @@ upload.getLocation = function () {
 
 upload.getHandlers = function () {
     return function(context, uploadType) {
+        context.stop();
         try {
-            context.stop();
             var request = context.request;
             var handler = mockup.load(request);
 
@@ -24,7 +24,6 @@ upload.getHandlers = function () {
                 var fileReg = new RegExp(/name="callback"[\r\n]*([\w\.\[\]'"]+)[\r\n]*[\s\S]+?filename="(.*?)\.([^\.]+?)"[\r\n]*Content\-Type: [a-zA-z\/\.\-]+?[\r\n]*([\s\S]+?)\-{6}/);
                 var result = fileReg.exec(reqBody);
                 var callback = (result && result[1]) || '';
-                logger.ok('UPLOAD', 'CALLBACK', callback);
                 var fileName = (result && result[2]) || '';
                 var fileType = (result && result[3]) || '';
                 var fileData = (result && result[4]) || '';
@@ -32,10 +31,11 @@ upload.getHandlers = function () {
                 var data, res;
                 var timeout = handler.timeout;
                 if (!fileName || !fileData) {
+                    logger.warn('edp', 'UPLOAD', 'Filename or fileData is null');
                     data = handler.response(request.pathname, { success: "false", callback: callback });
                 }
                 else {
-                    writeFileSync('../mockup/tmp/' + fileName + fileType, fileData);
+                    logger.ok('edp', 'UPLOAD', 'File ' + fileName + '.' + fileType + 'is saved');
 
                     res = {
                         url: request.headers.host + '/mockup/tmp/' + fileName + '.' + fileType
@@ -63,11 +63,15 @@ upload.getHandlers = function () {
                 }
             }
             else {
-                common404(context);
+                logger.error('edp', 'ERROR', 'Mockup data not found for UPLOAD');
+                context.status = 404;
+                context.start();
             }
         }
         catch (e) {
-            common500(context, e);
+            logger.error('edp', 'ERROR', e.toString());
+            context.status = 500;
+            context.start();
         }
     };
 };
