@@ -40,7 +40,7 @@ mockup.load = function(request) {
     else {
         return null;
     }
-}
+};
 
 /**
  * 返回判断是否需要加载mockup的函数
@@ -88,7 +88,8 @@ mockup.getHandlers = function () {
             var query = qs.parse(request.search.substr(1));
             var path;
             var reqHandlerKey;
-            if (path = query.path) {
+            if (query.path) {
+                path = query.path;
                 logger.ok('edp', 'OK', 'Mockup data redirected to `' + request.pathname + '`');
 
                 // 初始化对应的响应处理器名称，

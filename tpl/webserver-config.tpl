@@ -8,43 +8,43 @@ var cors = require('./tools/cors');
 
 exports.getLocations = function () {
     return [
-        { 
+        {
             location: function(request) {
                 return /\/$/.test(request.pathname);
             },
             handler: home( 'index.html' )
         },
-        { 
-            location: /^\/redirect-local/, 
-            handler: redirect('redirect-target', false) 
+        {
+            location: /^\/redirect-local/,
+            handler: redirect('redirect-target', false)
         },
-        { 
-            location: /^\/redirect-remote/, 
-            handler: redirect('http://www.baidu.com', false) 
+        {
+            location: /^\/redirect-remote/,
+            handler: redirect('http://www.baidu.com', false)
         },
-        { 
-            location: /^\/redirect-target/, 
-            handler: content('redirectd!') 
+        {
+            location: /^\/redirect-target/,
+            handler: content('redirectd!')
         },
-        { 
-            location: '/empty', 
-            handler: empty() 
+        {
+            location: '/empty',
+            handler: empty()
         },
-        { 
-            location: /\.css($|\?)/, 
+        {
+            location: /\.css($|\?)/,
             handler: [
                 autocss()
             ]
         },
-        { 
-            location: /\.less($|\?)/, 
+        {
+            location: /\.less($|\?)/,
             handler: [
                 file(),
                 less()
             ]
         },
-        { 
-            location: /\.styl($|\?)/, 
+        {
+            location: /\.styl($|\?)/,
             handler: [
                 file(),
                 stylus()
@@ -54,12 +54,12 @@ exports.getLocations = function () {
             location: mockup.getLocation(),
             handler: mockup.getHandlers()
         },
-        { 
-            location: upload.getLocation(), 
+        {
+            location: upload.getLocation(),
             handler: upload.getHandlers()
         },
-        { 
-            location: cors.getLocation(), 
+        {
+            location: cors.getLocation(),
             handler: cors.getHandlers()
         }
     ];

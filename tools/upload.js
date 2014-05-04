@@ -21,7 +21,9 @@ upload.getHandlers = function () {
             if (handler) {
                 var postData = request.bodyBuffer || '';
                 var reqBody = postData.toString();
-                var fileReg = new RegExp(/name="callback"[\r\n]*([\w\.\[\]'"]+)[\r\n]*[\s\S]+?filename="(.*?)\.([^\.]+?)"[\r\n]*Content\-Type: [a-zA-z\/\.\-]+?[\r\n]*([\s\S]+?)\-{6}/);
+                var fileReg = new RegExp(
+                    /name="callback"[\r\n]*([\w\.\[\]'"]+)[\r\n]*[\s\S]+?filename="(.*?)\.([^\.]+?)"[\r\n]*Content\-Type: [a-zA-z\/\.\-]+?[\r\n]*([\s\S]+?)\-{6}/
+                );
                 var result = fileReg.exec(reqBody);
                 var callback = (result && result[1]) || '';
                 logger.ok('UPLOAD', 'CALLBACK', callback);
@@ -32,16 +34,16 @@ upload.getHandlers = function () {
                 var data, res;
                 var timeout = handler.timeout;
                 if (!fileName || !fileData) {
-                    data = handler.response(request.pathname, { success: "false", callback: callback });
+                    data = handler.response(request.pathname, { success: 'false', callback: callback });
                 }
                 else {
-                    writeFileSync('../mockup/tmp/' + fileName + fileType, fileData);
+                    writeFileSync('../mockup/.tmp/' + fileName + fileType, fileData);
 
                     res = {
-                        url: request.headers.host + '/mockup/tmp/' + fileName + '.' + fileType
+                        url: request.headers.host + '/mockup/.tmp/' + fileName + '.' + fileType
                     };
                     data = handler.response(request.pathname, {
-                        success: "true",
+                        success: 'true',
                         callback: callback,
                         fileName: fileName,
                         fileType: fileType,

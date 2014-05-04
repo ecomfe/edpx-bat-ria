@@ -27,7 +27,7 @@ cli.description = '添加新内容';
  */
 cli.options = [];
 
-var chalk = require( 'chalk' );
+var chalk = require( 'edp-core' ).chalk;
 var read = require( 'read' );
 var logger = require( '../../tools/logger' );
 var Deferred = require( 'edp-core' ).Deferred;

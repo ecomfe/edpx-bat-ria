@@ -15,8 +15,7 @@
         "semver": ">=2.1.0",
         "handlebars": "~1.0",
         "mkdirp": "~0.3.3",
-        "read": "~1.0.5",
-        "chalk": "~0.4.0"
+        "read": "~1.0.5"
     },
     "repository": "git://github.com/ecomfe/edpx-bat-ria"
 }
