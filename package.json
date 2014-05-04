@@ -1,7 +1,7 @@
 {
     "name": "edpx-bat-ria",
     "description": "EDP extension for RIA system for Brand Ads Team.",
-    "version": "0.1.5",
+    "version": "0.1.6",
     "main": "./cli/bat-ria.js",
     "contributors": [
         { "name": "justineo", "email": "justice360@gmail.com" }
