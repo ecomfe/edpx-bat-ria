@@ -2,9 +2,9 @@ exports.port = 8848;
 exports.directoryIndexes = true;
 exports.documentRoot = __dirname;
 
-var mockup = require('./tools/mockup');
-var upload = require('./tools/upload');
-var cors = require('./tools/cors');
+var mockup = require('./tool/mockup');
+var upload = require('./tool/upload');
+var cors = require('./tool/cors');
 
 exports.getLocations = function () {
     return [

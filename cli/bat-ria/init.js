@@ -70,7 +70,7 @@ cli.main = function ( args, opts ) {
     var copies = [
         { source: '../../img', target: 'src/common/img' },
         { source: '../../css', target: 'src/common/css' },
-        { source: '../../tools', target: 'tools' }
+        { source: '../../tool', target: 'tool' }
     ];
     require( '../../lib/util/copy' )( projectInfo, copies );
 
