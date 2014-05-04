@@ -113,7 +113,7 @@ cli.main = function ( args, opts ) {
         };
     }
 
-    var npmPkgs = [];
+    var npmPkgs = [ 'chalk' ];
     var edpPkgs = [ 'ef', 'esf-ms', 'bat-ria' ];
 
     var tasks = npmPkgs.map( npmInstall )

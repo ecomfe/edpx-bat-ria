@@ -3,7 +3,7 @@
  * 输出格式为`edp ERROR The argument is invalid.`
  * @author Justineo(justice360@gmail.com)
  */
-var chalk = require('edp-core').chalk;
+var chalk = require('chalk');
 
 var logger = {};
 
