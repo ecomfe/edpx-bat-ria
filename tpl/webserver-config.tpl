@@ -50,16 +50,16 @@ exports.getLocations = function () {
                 stylus()
             ]
         },
+        { 
+            location: upload.getLocation(), 
+            handler: upload.getHandlers()
+        },
         {
             location: mockup.getLocation(),
             handler: mockup.getHandlers()
         },
-        {
-            location: upload.getLocation(),
-            handler: upload.getHandlers()
-        },
-        {
-            location: cors.getLocation(),
+        { 
+            location: cors.getLocation(), 
             handler: cors.getHandlers()
         }
     ];
