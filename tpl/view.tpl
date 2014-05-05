@@ -22,11 +22,21 @@ define(function (require) {
      * @inheritDoc
      */
     {{{view}}}.prototype.template = '{{{templateTarget}}}';
-
+{{#eq type "List"}}
+    var tableFields = [];
+{{/eq}}
     /**
      * @inheritDoc
      */
-    {{{view}}}.prototype.uiProperties = {};
+    {{{view}}}.prototype.uiProperties = {
+{{#eq type "List"}}
+        table: {
+            fields: tableFields,
+            sortable: true,
+            columnResizable: true
+        }
+{{/eq}}
+    };
 
     /**
      * @inheritDoc
