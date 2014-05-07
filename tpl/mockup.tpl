@@ -32,11 +32,11 @@ exports.response = function (path, params) {
         //     }
         // ],
         // {
-        //     totalCount: page.totalCount || 100,
-        //     pageNo: page.pageNo || 1,
-        //     pageSize: page.pageSize || 15,
-        //     orderBy: page.orderBy || 'id',
-        //     order: page.order || 'desc',
+        //     totalCount: params.totalCount || 100,
+        //     pageNo: params.pageNo || 1,
+        //     pageSize: params.pageSize || 15,
+        //     orderBy: params.orderBy || 'id',
+        //     order: params.order || 'desc',
         // }
     );
 {{/eq}}{{#eq type "form"}}
@@ -60,6 +60,10 @@ exports.response = function (path, params) {
         {
             // name: '名称过长！'
         }
+    );
+{{/eq}}{{#eq type "upload"}}
+    return mockup.iframeCallback(
+        (params && params.callback) + '(' + JSON.stringify(params) + ');'
     );
 {{/eq}}
 };

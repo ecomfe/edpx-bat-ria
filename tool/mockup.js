@@ -226,6 +226,23 @@ mockup.globalFail = function (msg) {
     return mockup.failure(msg && msg.toString() || '');
 };
 
+/**
+ * 返回iframe回调的mockup请求
+ *
+ * @param {string} script 回调代码
+ */
+mockup.iframeCallback = function (script) {
+    return [
+        '<!doctype html>',
+        '<html>',
+            '<meta charset="utf-8" />',
+            '<script>',
+                script,
+            '</script>',
+        '</html>'
+    ].join();
+};
+
 module.exports = exports = mockup;
 
 

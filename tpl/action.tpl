@@ -18,14 +18,6 @@ define(function (require) {
     {{{action}}}.prototype.modelType = require('{{{model}}}');
     {{{action}}}.prototype.viewType = require('{{{view}}}');
 
-    /**
-     * 初始化交互行为
-     *
-     * @protected
-     * @override
-     */
-    {{{action}}}.prototype.initBehavior = function () {};
-
     require('er/util').inherits({{{action}}}, {{{type}}}Action);
     return {{{action}}};
 });

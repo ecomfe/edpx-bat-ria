@@ -4,6 +4,36 @@
  */
 var mockup = require('./mockup');
 var logger = require('./logger');
+var fs = require('fs');
+
+/**
+ * 同步保存文件到本地
+ *
+ * @param {string} path 要保存的文件目标路径
+ * @param {string} data 要保存的文件的数据
+ */
+function writeFileSync(path, data) {
+    if (fs.existsSync(path)) {
+
+        // 已经存在，直接写入
+        fs.writeFileSync(path, data, 'utf-8');
+    }
+    else {
+        var segments = path.split('/');
+        var checkPath = '.';
+
+        // 检查目录是否存在，不存在就创建之
+        for (var i = 0, len = segments.length - 1; i < len; i++) {
+            checkPath += '/' + segments[i];
+
+            if (!fs.existsSync(checkPath)) {
+                fs.mkdirSync(checkPath);
+            }
+        }
+
+        fs.writeFileSync(path, data, 'utf-8');
+    }
+}
 
 var upload = {};
 
@@ -33,12 +63,12 @@ upload.getHandlers = function () {
                 var data, res;
                 var timeout = handler.timeout;
                 if (!fileName || !fileData) {
-                    logger.warn('edp', 'UPLOAD', 'File name or file data is null.');
+                    logger.warn('edp', 'UPLOAD', 'File name or file data is null');
                     data = handler.response(request.pathname, { success: 'false', callback: callback });
                 }
                 else {
                     writeFileSync('../mockup/.tmp/' + fileName + fileType, fileData);
-                    logger.ok('edp', 'UPLOAD', 'File `' + fileName + '.' + fileType + '` is saved.');
+                    logger.ok('edp', 'UPLOAD', 'File `' + fileName + '.' + fileType + '` is saved');
 
                     res = {
                         url: request.headers.host + '/mockup/.tmp/' + fileName + '.' + fileType
@@ -66,7 +96,7 @@ upload.getHandlers = function () {
                 }
             }
             else {
-                logger.error('edp', 'ERROR', 'Mockup data not found for UPLOAD');
+                logger.error('edp', 'ERROR', 'Mockup data found for `' + request.pathname + '`');
                 context.status = 404;
                 context.start();
             }
