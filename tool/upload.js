@@ -71,7 +71,7 @@ upload.getHandlers = function () {
                     logger.ok('edp', 'UPLOAD', 'File `' + fileName + '.' + fileType + '` is saved');
 
                     res = {
-                        url: request.headers.host + '/mockup/.tmp/' + fileName + '.' + fileType
+                        url: 'http://' + request.headers.host + '/mockup/.tmp/' + fileName + '.' + fileType
                     };
                     data = handler.response(request.pathname, {
                         success: 'true',
