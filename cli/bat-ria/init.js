@@ -80,7 +80,7 @@ cli.main = function ( args, opts ) {
 
     function npmInstall( pkg ) {
         return function () {
-            var deferred = new Deferred;
+            var deferred = new Deferred();
 
             exec( 'npm install ' + pkg, function ( error, stdout, stderr ) {
                 if ( error ) {
@@ -98,7 +98,7 @@ cli.main = function ( args, opts ) {
 
     function edpImport( pkg ) {
         return function () {
-            var deferred = new Deferred;
+            var deferred = new Deferred();
 
             edpPackage.importFromRegistry( pkg, dir, function ( error, pkg ) {
                 if ( error ) {
