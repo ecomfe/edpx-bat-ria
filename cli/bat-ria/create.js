@@ -30,7 +30,6 @@ cli.options = [];
 var chalk = require( 'edp-core' ).chalk;
 var read = require( 'read' );
 var logger = require( '../../tool/logger' );
-var Deferred = require( 'edp-core' ).Deferred;
 
 var creators = {
     action: require( '../../lib/util/create-action' ),
