@@ -11,7 +11,7 @@ define(function (require) {
     var actionsConfig = [];
 
     var controller = require('er/controller');
-    u.each(actionsConfig, controller.registerAction);
+    controller.registerAction(actionsConfig);
 
     // 这里可以添加一些模块配置
     // 如请求地址，表格fields等
