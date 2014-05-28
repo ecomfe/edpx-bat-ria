@@ -32,8 +32,7 @@ define(function (require) {
      * @inheritDoc
      */
     {{{model}}}.prototype.datasource = null;
-{{/neq}}
-{{#eq pagePath "/dev/index" }}
+{{/neq}}{{#eq pagePath "/dev/index" }}
     /**
      * @inheritDoc
      */
@@ -42,8 +41,7 @@ define(function (require) {
             return Object.keys( require('er/controller').actionPathMapping );
         }
     };
-{{/eq}}
-{{#eq type "List"}}
+{{/eq}}{{#eq type "List"}}
     /**
      * @inheritDoc
      */
@@ -61,7 +59,11 @@ define(function (require) {
     /**
      * @inheritDoc
      */
-    {{{model}}}.prototype.defaultArgs = {};
+    {{{model}}}.prototype.getDefaultArgs = function() {
+        return {
+            'id': this.get( 'id' )
+        };
+    };
 
     /**
      * @inheritDoc

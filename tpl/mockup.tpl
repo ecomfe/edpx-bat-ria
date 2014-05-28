@@ -63,7 +63,10 @@ exports.response = function (path, params) {
 {{/eq}}{{#eq type "form"}}
     return mockup.ok(
         {
-            // id: 1
+            id: 4,
+            name: 'erik168',
+            email: 'errorrik@gmail.com',
+            age: 13
         }
     );
 
