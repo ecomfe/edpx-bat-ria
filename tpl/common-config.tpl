@@ -10,12 +10,12 @@ define(function (require) {
     var apiConfig = {};
 
     var config = {
-        
+
         // API配置
         api: apiConfig,
 
         // ER默认路径
-        index: '/'
+        index: '/dev/index'
     };
 
     return config;

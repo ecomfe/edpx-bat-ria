@@ -67,6 +67,9 @@ cli.main = function ( args, opts ) {
     createApi( projectInfo, [ 'api', 'constants', '/data/system/constants', 'ok' ] );
     createApi( projectInfo, [ 'api', 'user', '/data/system/user', 'session' ] );
 
+    var createAction = require( '../../lib/util/create-action' );
+    createAction( projectInfo, [ 'action', '/dev/index' ] );
+
     var copies = [
         { source: '../../img', target: 'src/common/img' },
         { source: '../../css', target: 'src/common/css' },
@@ -80,7 +83,7 @@ cli.main = function ( args, opts ) {
 
     function npmInstall( pkg ) {
         return function () {
-            var deferred = new Deferred;
+            var deferred = new Deferred();
 
             exec( 'npm install ' + pkg, function ( error, stdout, stderr ) {
                 if ( error ) {
@@ -98,7 +101,7 @@ cli.main = function ( args, opts ) {
 
     function edpImport( pkg ) {
         return function () {
-            var deferred = new Deferred;
+            var deferred = new Deferred();
 
             edpPackage.importFromRegistry( pkg, dir, function ( error, pkg ) {
                 if ( error ) {
