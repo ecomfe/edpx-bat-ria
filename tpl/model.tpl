@@ -18,20 +18,30 @@ define(function (require) {
         {{{type}}}Model.apply(this, arguments);{{#eq type "List"}}
 
         // 列表请求器 (*)
-        // this.listRequester = api.someList;{{/eq}}{{#eq type "Form"}}
+        this.listRequester = api.{{{api.list}}};{{/eq}}{{#eq type "Form"}}
 
         // 表单数据请求器
-        // this.formRequester = api.someDetail;
+        this.formRequester = api.{{{api.detail}}};
 
         // 表单提交请求器 (*)
-        // this.submitRequester = api.someUpdate;{{/eq}}
+        this.submitRequester = api.{{{api.update}}};{{/eq}}
     }
 
+{{#neq pagePath "/dev/index" }}
     /**
      * @inheritDoc
      */
     {{{model}}}.prototype.datasource = null;
-{{#eq type "List"}}
+{{/neq}}{{#eq pagePath "/dev/index" }}
+    /**
+     * @inheritDoc
+     */
+    {{{model}}}.prototype.datasource = {
+        actionList: function( model ){
+            return Object.keys( require('er/controller').actionPathMapping );
+        }
+    };
+{{/eq}}{{#eq type "List"}}
     /**
      * @inheritDoc
      */
@@ -49,7 +59,11 @@ define(function (require) {
     /**
      * @inheritDoc
      */
-    {{{model}}}.prototype.defaultArgs = {};
+    {{{model}}}.prototype.getDefaultArgs = function() {
+        return {
+            'id': this.get( 'id' )
+        };
+    };
 
     /**
      * @inheritDoc

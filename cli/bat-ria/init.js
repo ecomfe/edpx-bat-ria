@@ -67,6 +67,9 @@ cli.main = function ( args, opts ) {
     createApi( projectInfo, [ 'api', 'constants', '/data/system/constants', 'ok' ] );
     createApi( projectInfo, [ 'api', 'user', '/data/system/user', 'session' ] );
 
+    var createAction = require( '../../lib/util/create-action' );
+    createAction( projectInfo, [ 'action', '/dev/index' ] );
+
     var copies = [
         { source: '../../img', target: 'src/common/img' },
         { source: '../../css', target: 'src/common/css' },

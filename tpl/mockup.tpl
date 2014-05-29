@@ -26,11 +26,32 @@ exports.response = function (path, params) {
     );
 {{/eq}}{{#eq type "list"}}
     return mockup.list(
-        // [
-        //     {
-        //         id: 1
-        //     }
-        // ],
+        [
+            {
+                id: 1,
+                name: 'leeight',
+                email: 'liyubei@baidu.com',
+                age: 10
+            },
+            {
+                id: 2,
+                name: 'Justineo',
+                email: 'justice360@gmail.com',
+                age: 11
+            },
+            {
+                id: 3,
+                name: 'chestnutchen',
+                email: 'mini.chenli@gmail.com',
+                age: 12
+            },
+            {
+                id: 4,
+                name: 'erik168',
+                email: 'errorrik@gmail.com',
+                age: 13
+            }
+        ]
         // {
         //     totalCount: params.totalCount || 100,
         //     pageNo: params.pageNo || 1,
@@ -42,7 +63,10 @@ exports.response = function (path, params) {
 {{/eq}}{{#eq type "form"}}
     return mockup.ok(
         {
-            // id: 1
+            id: 4,
+            name: 'erik168',
+            email: 'errorrik@gmail.com',
+            age: 13
         }
     );
 
