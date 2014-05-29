@@ -48,7 +48,7 @@ require.config({
 {{/loaderConfig}}
 <script>
 require(['common/main'], function (main) {
-    main.init();
+    main.start();
 });
 </script>
 </body>

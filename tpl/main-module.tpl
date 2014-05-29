@@ -10,7 +10,7 @@ define(
          * 引入各业务模块的Action配置
          * 如果期望添加action时工具自动配置，请保持requireConfigs名称不变
          *
-         * @inner
+         * @ignore
          */
         function requireConfigs() {
             // require( '../plan/config' );
@@ -20,31 +20,32 @@ define(
         requireConfigs();
 
         /**
-         * 初始化UI，填写用户信息等
+         * 初始化UI，填写用户信息、初始化导航栏等
          *
-         * @inner
+         * @ignore
          */
-        function initView() {
+        function init() {
 
             var user = require('bat-ria/system/user');
             var visitor = user.visitor;
 
             // 在这里用 visitor 信息初始化用户信息等 UI 元素
+            // 以及自定义各种系统配置、导航栏等等
         }
 
         /**
-         * 初始化系统启动
+         * 启动RIA系统，请求关键数据等
          *
-         * @inner
+         * @ignore
          */
-        function init() {
+        function start() {
             require('bat-ria/main')
                 .start(require('common/config'))
-                .then(initView);
+                .then(init);
         }
 
         return {
-            init: init
+            start: start
         };
     }
 );
