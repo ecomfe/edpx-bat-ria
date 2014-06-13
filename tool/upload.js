@@ -69,7 +69,7 @@ upload.getHandlers = function () {
                 });
             }
             else {
-                logger.error('edp', 'UPLOAD', 'Mockup data not found for `' + request.pathname + '`');
+                logger.error('edp', 'UPLOAD ERROR', 'Mockup data not found for `' + request.pathname + '`');
                 context.status = 404;
                 context.start();
             }
