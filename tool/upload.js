@@ -5,40 +5,12 @@
 var mockup = require('./mockup');
 var logger = require('./logger');
 var fs = require('fs');
-
-/**
- * 同步保存文件到本地
- *
- * @param {string} path 要保存的文件目标路径
- * @param {string} data 要保存的文件的数据
- */
-function writeFileSync(path, data) {
-    if (fs.existsSync(path)) {
-
-        // 已经存在，直接写入
-        fs.writeFileSync(path, data, 'utf-8');
-    }
-    else {
-        var segments = path.split('/');
-        var checkPath = '.';
-
-        // 检查目录是否存在，不存在就创建之
-        for (var i = 0, len = segments.length - 1; i < len; i++) {
-            checkPath += '/' + segments[i];
-
-            if (!fs.existsSync(checkPath)) {
-                fs.mkdirSync(checkPath);
-            }
-        }
-
-        fs.writeFileSync(path, data, 'utf-8');
-    }
-}
+var multiparty = require('multiparty');
 
 var upload = {};
 
 upload.getLocation = function () {
-    return /^\/data\/.+\/upload$/;
+    return /^\/data\/.+\/upload(?:$|\?)/;
 };
 
 upload.getHandlers = function () {
@@ -49,60 +21,61 @@ upload.getHandlers = function () {
             var handler = mockup.load(request);
 
             if (handler) {
-                var postData = request.bodyBuffer || '';
-                var reqBody = postData.toString();
-                var fileReg = new RegExp(
-                    /name="callback"[\r\n]*([\w\.\[\]'"]+)[\r\n]*[\s\S]+?filename="(.*?)\.([^\.]+?)"[\r\n]*Content\-Type: [a-zA-z\/\.\-]+?[\r\n]*([\s\S]+?)\-{6}/
-                );
-                var result = fileReg.exec(reqBody);
-                var callback = (result && result[1]) || '';
-                var fileName = (result && result[2]) || '';
-                var fileType = (result && result[3]) || '';
-                var fileData = (result && result[4]) || '';
+                request.pipe = function (dst) {
+                    dst.write(request.bodyBuffer);
+                    dst.end();
+                };
+                var form = new multiparty.Form();
+                form.parse(request, function(err, fields, files) {
+                    if (err) {
+                        logger.error('edp', 'UPLOAD ERROR', err.message.toString());
+                        context.status = 500;
+                        context.start();
+                        return;
+                    }
 
-                var data, res;
-                var timeout = handler.timeout;
-                if (!fileName || !fileData) {
-                    logger.warn('edp', 'UPLOAD', 'File name or file data is null');
-                    data = handler.response(request.pathname, { success: 'false', callback: callback });
-                }
-                else {
-                    writeFileSync('../mockup/.tmp/' + fileName + fileType, fileData);
-                    logger.ok('edp', 'UPLOAD', 'File `' + fileName + '.' + fileType + '` is saved');
+                    var timeout = handler.timeout;
+                    var fileInfo = files.filedata[0];
 
+                    if (!fs.existsSync('mockup/tmp/')) {
+                        fs.mkdirSync('mockup/tmp/');
+                    }
+                    fs.rename(fileInfo.path, 'mockup/tmp/' + fileInfo.originalFilename);
+
+                    logger.ok('edp', 'UPLOAD', 'File `' + fileInfo.originalFilename + '` is saved');
                     res = {
-                        url: 'http://' + request.headers.host + '/mockup/.tmp/' + fileName + '.' + fileType
+                        url: 'http://' + request.headers.host + '/mockup/tmp/' + fileInfo.originalFilename
                     };
                     data = handler.response(request.pathname, {
                         success: 'true',
-                        callback: callback,
-                        fileName: fileName,
-                        fileType: fileType,
+                        callback: fields.callback[0],
+                        fileName: fileInfo.originalFilename,
+                        fileType: fileInfo.originalFilename.split('.').pop(),
                         result: res
                     });
-                }
 
-                context.status = 200;
-                context.header['Content-Type'] = 'text/html;charset=UTF-8';
-                context.content = data;
+                    context.content = data;
+                    context.header['Content-Type'] = 'text/html;charset=UTF-8';
+                    context.status = 200;
 
-                if (timeout) {
-                    setTimeout(function () {
+                    if (timeout) {
+                        setTimeout(function () {
+                            context.start();
+                        }, timeout);
+                    }
+                    else {
                         context.start();
-                    }, timeout);
-                }
-                else {
-                    context.start();
-                }
+                    }
+                });
             }
             else {
-                logger.error('edp', 'ERROR', 'Mockup data found for `' + request.pathname + '`');
+                logger.error('edp', 'UPLOAD', 'Mockup data not found for `' + request.pathname + '`');
                 context.status = 404;
                 context.start();
             }
         }
         catch (e) {
-            logger.error('edp', 'ERROR', e.toString());
+            logger.error('edp', 'UPLOAD ERROR', e.toString());
             context.status = 500;
             context.start();
         }
