@@ -208,6 +208,10 @@ cli.main = function ( args, opts ) {
 
                 var createAction = require( '../../lib/util/create-action' );
                 createAction( projectInfo, [ 'action', '/dev/index', entry ] );
+
+                // 更新本地的配置文件
+                var updateLoaderConfig = require( 'edp-project/cli/project/updateLoaderConfig' );
+                updateLoaderConfig.cli.main();
             } );
     } );
 
