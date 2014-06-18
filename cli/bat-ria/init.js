@@ -34,6 +34,59 @@ cli.usage = 'edp bat-ria init';
  */
 cli.options = [];
 
+var chalk = require( 'edp-core' ).chalk;
+var read = require( 'read' );
+var logger = require( '../../tool/logger' );
+
+function readEntry( callback ) {
+    logger.verbose( 'ria', 'INFO', 'Are you going to initialize a multi-entry project?' );
+    read( {
+        prompt: 'Y / N: ',
+        'default': 'N'
+    }, function ( err, result, isDefault ) {
+        if ( err ) {
+            logger.error( 'ria', 'ERROR', err.message );
+            return;
+        }
+
+        result = result.toLowerCase();
+
+        if ( [ 'y', 'yes', 'n', 'no' ].indexOf( result ) === -1 ) {
+            readEntry( callback );
+        }
+        else {
+            var isMulti = result == 'y' || result == 'yes';
+
+            if ( isMulti ) {
+                readEntryName( callback );
+            }
+            else {
+                callback && callback( '' );
+            }
+        }
+    } );
+}
+
+function readEntryName( callback ) {
+    logger.verbose( 'ria', 'INFO', 'Please enter <name> for the first entry.' );
+
+    read( {
+        prompt: '<name>: '
+    }, function ( err, result, isDefault ) {
+        if ( err ) {
+            logger.error( 'ria', 'ERROR', err.message );
+            return;
+        }
+
+        if ( !result ) {
+            readEntryName( callback );
+        }
+        else {
+            callback && callback( result );
+        }
+    } );
+}
+
 /**
  * 模块命令行运行入口
  * 
@@ -50,87 +103,99 @@ cli.main = function ( args, opts ) {
         dir = process.cwd();
     }
 
-    var edpProject = require( 'edp-project' );
-    var projectInfo = edpProject.init( dir );
-    edpProject.build.createConfigFile( projectInfo );
+    readEntry( function ( entry ) {
 
-    var mkdirp = require( 'mkdirp' );
-    mkdirp.sync( path.resolve( dir, 'src/common' ) );
+        var edpProject = require( 'edp-project' );
+        var projectInfo = edpProject.init( dir );
+        edpProject.build.createConfigFile( projectInfo );
 
-    require( '../../lib/util/gen-main-module' )( projectInfo );
-    require( '../../lib/util/gen-common-config' )( projectInfo );
-    require( '../../lib/util/gen-constants' )( projectInfo );
-    require( '../../lib/util/gen-webserver-config' )( projectInfo );
+        var mkdirp = require( 'mkdirp' );
+        mkdirp.sync( path.resolve( dir, 'src/common' ) );
 
-    // 生成默认的API配置和mockup
-    var createApi = require( '../../lib/util/create-api' );
-    createApi( projectInfo, [ 'api', 'constants', '/data/system/constants', 'ok' ] );
-    createApi( projectInfo, [ 'api', 'user', '/data/system/user', 'session' ] );
+        entry = entry || '';
 
-    var createAction = require( '../../lib/util/create-action' );
-    createAction( projectInfo, [ 'action', '/dev/index' ] );
-
-    var copies = [
-        { source: '../../img', target: 'src/common/img' },
-        { source: '../../css', target: 'src/common/css' },
-        { source: '../../tool', target: 'tool' }
-    ];
-    require( '../../lib/util/copy' )( projectInfo, copies );
-
-    var Deferred = require( 'edp-core' ).Deferred;
-    var edpPackage = require( 'edp-package' );
-    var exec = require( 'child_process' ).exec;
-
-    function npmInstall( pkg ) {
-        return function () {
-            var deferred = new Deferred();
-
-            exec( 'npm install ' + pkg, function ( error, stdout, stderr ) {
-                if ( error ) {
-                    console.error( stderr );
-                    deferred.reject( error );
-                }
-                else {
-                    console.log( stdout );
-                    deferred.resolve( stdout );
-                }
-            } );
-            return deferred.promise;
+        var options = {
+            entryName: entry
         };
-    }
 
-    function edpImport( pkg ) {
-        return function () {
-            var deferred = new Deferred();
+        require( '../../lib/util/gen-main-module' )( projectInfo, options );
+        require( '../../lib/util/gen-common-config' )( projectInfo, options );
+        require( '../../lib/util/gen-constants' )( projectInfo );
+        require( '../../lib/util/gen-webserver-config' )( projectInfo );
 
-            edpPackage.importFromRegistry( pkg, dir, function ( error, pkg ) {
-                if ( error ) {
-                    deferred.reject( error );
+        var copies = [
+            { source: '../../img', target: 'src/common/img' },
+            { source: '../../css', target: 'src/common/css' },
+            { source: '../../tool', target: 'tool' }
+        ];
+        require( '../../lib/util/copy' )( projectInfo, copies );
+
+        var Deferred = require( 'edp-core' ).Deferred;
+        var edpPackage = require( 'edp-package' );
+        var exec = require( 'child_process' ).exec;
+
+        function npmInstall( pkg ) {
+            return function () {
+                var deferred = new Deferred();
+
+                exec( 'npm install ' + pkg, function ( error, stdout, stderr ) {
+                    if ( error ) {
+                        console.error( stderr );
+                        deferred.reject( error );
+                    }
+                    else {
+                        console.log( stdout );
+                        deferred.resolve( stdout );
+                    }
+                } );
+                return deferred.promise;
+            };
+        }
+
+        function edpImport( pkg ) {
+            return function () {
+                var deferred = new Deferred();
+
+                edpPackage.importFromRegistry( pkg, dir, function ( error, pkg ) {
+                    if ( error ) {
+                        deferred.reject( error );
+                    }
+                    else {
+                        deferred.resolve( pkg );
+                    }
+                } );
+
+                return deferred.promise;
+            };
+        }
+
+        var npmPkgs = [ 'chalk', 'multiparty' ];
+        var edpPkgs = [ 'ef', 'esf-ms', 'bat-ria' ];
+
+        var tasks = npmPkgs.map( npmInstall )
+            .concat( edpPkgs.map( edpImport ) );
+
+        // 每次迭代将上一个task返回的`promise`和下一个task用`then`关联起来
+        tasks
+            .reduce( function ( prev, task ) {
+                return prev.then( task );
+            }, Deferred.resolved() )
+            .then( function () {
+                require( '../../lib/util/gen-main-less' )( projectInfo, options );
+                require( '../../lib/util/gen-index' )( projectInfo, options );
+                if ( entry ) {
+                    require( '../../lib/util/gen-entry-main-less' )( projectInfo, options );
                 }
-                else {
-                    deferred.resolve( pkg );
-                }
+
+                // 生成默认的API配置和mockup
+                var createApi = require( '../../lib/util/create-api' );
+                createApi( projectInfo, [ 'api', 'constants', '/data/system/constants', 'ok' ] );
+                createApi( projectInfo, [ 'api', 'user', '/data/system/user', 'session' ] );
+
+                var createAction = require( '../../lib/util/create-action' );
+                createAction( projectInfo, [ 'action', '/dev/index', entry ] );
             } );
-
-            return deferred.promise;
-        };
-    }
-
-    var npmPkgs = [ 'chalk' ];
-    var edpPkgs = [ 'ef', 'esf-ms', 'bat-ria' ];
-
-    var tasks = npmPkgs.map( npmInstall )
-        .concat( edpPkgs.map( edpImport ) );
-
-    // 每次迭代将上一个task返回的`promise`和下一个task用`then`关联起来
-    tasks
-        .reduce( function ( prev, task ) {
-            return prev.then( task );
-        }, Deferred.resolved() )
-        .then( function () {
-            require( '../../lib/util/gen-main-less' )( projectInfo );
-            require( '../../lib/util/gen-index' )( projectInfo );
-        } );
+    } );
 
 };
 

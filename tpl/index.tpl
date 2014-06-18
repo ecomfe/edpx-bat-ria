@@ -14,12 +14,8 @@
 <![endif]-->
 
 <div class="header">
-    <a class="logo" href="#"><img alt="" title="" src="src/common/img/logo.png" width="177" height="34"></a>
-    <ul class="nav">
-        <li class="nav-item-current"><a href="#">首页</a></li>
-        <li><a href="#">导航1</a></li>
-        <li><a href="#">导航2</a></li>
-    </ul>
+    <a class="logo" href="#"><img alt="" title="" src="{{{imgDir}}}/logo.png" width="177" height="34"></a>
+    <ul id="nav" class="nav"></ul>
     <div class="user-info">
         <a class="user-name"></a>
         <a href="/user/logout">退出</a>
@@ -47,8 +43,8 @@ require.config({
 </script>
 {{/loaderConfig}}
 <script>
-require(['common/main'], function (main) {
-    main.start();
+require(['{{{entryMainModule}}}'], function (app) {
+    app.start();
 });
 </script>
 </body>

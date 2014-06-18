@@ -16,6 +16,15 @@ define(function (require) {
 
         // ER默认路径
         index: '/dev/index'
+
+        // // 系统名称
+        // systemName: '品牌全景',
+
+        // // 导航栏
+        // nav: {
+        //     navId: 'nav',
+        //     tabs: []
+        // }
     };
 
     return config;

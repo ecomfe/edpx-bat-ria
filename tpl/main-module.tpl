@@ -5,6 +5,7 @@
 
 define(
     function (require) {
+        var config = require('common/config');
 
         /**
          * 引入各业务模块的Action配置
@@ -13,8 +14,6 @@ define(
          * @ignore
          */
         function requireConfigs() {
-            // require( '../plan/config' );
-            // require( '../report/config' );
         }
 
         requireConfigs();
@@ -31,6 +30,12 @@ define(
 
             // 在这里用 visitor 信息初始化用户信息等 UI 元素
             // 以及自定义各种系统配置、导航栏等等
+
+            // // 初始化主导航栏
+            // var nav = config.nav;
+            // if (nav && nav.navId && nav.tabs) {
+            //     require('bat-ria/ui/navigator').init(nav.navId, nav.tabs);
+            // }
         }
 
         /**
@@ -40,7 +45,7 @@ define(
          */
         function start() {
             require('bat-ria/main')
-                .start(require('common/config'))
+                .start(config)
                 .then(init);
         }
 

@@ -7,7 +7,7 @@ define(function (require) {
     var {{{type}}}Action = require('bat-ria/mvc/{{{type}}}Action');
 
     /**
-     * [Please Input Action Description]
+     * Action构造函数
      * 
      * @constructor
      */

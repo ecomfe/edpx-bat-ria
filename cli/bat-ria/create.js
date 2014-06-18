@@ -33,19 +33,21 @@ var logger = require( '../../tool/logger' );
 
 var creators = {
     action: require( '../../lib/util/create-action' ),
-    api: require( '../../lib/util/create-api' )
+    api: require( '../../lib/util/create-api' ),
+    entry: require( '../../lib/util/create-entry' )
 };
 var typeCreator = {
     action: 'action',
     base: 'action',
     list: 'action',
     form: 'action',
-    api: 'api'
+    api: 'api',
+    entry: 'entry'
 };
 
 function readType( callback ) {
     logger.verbose( 'ria', 'INFO', 'Please enter <type> for `bat-ria create`.' );
-    console.log( chalk.bold.green( 'action' ) + ' | list | form | api' );
+    console.log( chalk.bold.green( 'action' ) + ' | list | form | api | entry' );
     read({
         prompt: '<type>: ',
         'default': 'action'
