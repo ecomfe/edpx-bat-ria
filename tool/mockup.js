@@ -67,72 +67,83 @@ mockup.getLocation = function () {
     };
 };
 
+function handler(context) {
+    try {
+        context.stop();
+
+        var request = context.request;
+
+        var reqHandler = mockup.load(request);
+        if (!reqHandler) {
+            context.status = 404;
+            context.start();
+            return;
+        }
+
+        logger.ok('edp', 'OK', 'Mockup data found for `' + request.pathname + '`');
+
+        // 如果查询参数包含path信息，则默认使用该path
+        var query = qs.parse(request.search.substr(1));
+        var path;
+        var reqHandlerKey;
+        if (query.path) {
+            path = query.path;
+            logger.ok('edp', 'OK', 'Mockup data redirected to `' + request.pathname + '`');
+
+            // 初始化对应的响应处理器名称，
+            // e.g. GET/b/c其对应的处理器：get_b_c
+            reqHandlerKey = path.replace(/\//g, '_').toLowerCase();
+        }
+        else {
+            path = request.pathname;
+            reqHandlerKey = 'response';
+        }
+
+        // parse url-encoded post params
+        var postData = context.request.bodyBuffer || '';
+        var reqBody = qs.parse(postData.toString());
+        var data = reqHandler[reqHandlerKey](path, reqBody, context);
+
+        var timeout = reqHandler.timeout;
+
+        // 返回值未指定内容类型，默认按JSON格式处理返回
+        if (!context.header['Content-Type']) {
+            context.header['Content-Type'] = 'application/json;charset=UTF-8';
+            context.content = JSON.stringify(data || {});
+        }
+
+        if (timeout) {
+            setTimeout(function () {
+                context.start();
+            }, timeout);
+        }
+        else {
+            context.start();
+        }
+
+    }
+    catch (e) {
+        context.status = 500;
+        logger.error('edp', 'ERROR', e.toString());
+        context.start();
+    }
+}
+
+/**
+ * 返回mockup请求的处理函数
+ */
+mockup.getHandler = function () {
+    return handler;
+};
+
 /**
  * 返回mockup请求的处理函数
  */
 mockup.getHandlers = function () {
-    return function (context) {
-        try {
-            context.stop();
-
-            var request = context.request;
-
-            var reqHandler = mockup.load(request);
-            if (!reqHandler) {
-                context.status = 404;
-                context.start();
-                return;
-            }
-
-            logger.ok('edp', 'OK', 'Mockup data found for `' + request.pathname + '`');
-
-            // 如果查询参数包含path信息，则默认使用该path
-            var query = qs.parse(request.search.substr(1));
-            var path;
-            var reqHandlerKey;
-            if (query.path) {
-                path = query.path;
-                logger.ok('edp', 'OK', 'Mockup data redirected to `' + request.pathname + '`');
-
-                // 初始化对应的响应处理器名称，
-                // e.g. GET/b/c其对应的处理器：get_b_c
-                reqHandlerKey = path.replace(/\//g, '_').toLowerCase();
-            }
-            else {
-                path = request.pathname;
-                reqHandlerKey = 'response';
-            }
-
-            // parse url-encoded post params
-            var postData = context.request.bodyBuffer || '';
-            var reqBody = qs.parse(postData.toString());
-            var data = reqHandler[reqHandlerKey](path, reqBody, context);
-
-            var timeout = data.timeout;
-            delete data.timeout;
-
-            // 返回值未指定内容类型，默认按JSON格式处理返回
-            if (!context.header['Content-Type']) {
-                context.header['Content-Type'] = 'application/json;charset=UTF-8';
-                context.content = JSON.stringify(data || {});
-            }
-
-            if (timeout) {
-                setTimeout(function () {
-                    context.start();
-                }, timeout);
-            }
-            else {
-                context.start();
-            }
-
-        }
-        catch (e) {
-            context.status = 500;
-            logger.error('edp', 'ERROR', e.toString());
-            context.start();
-        }
-    };
+    return [
+        handler,
+        proxyNoneExists()
+    ]
 };
 
 /**
@@ -240,7 +251,7 @@ mockup.iframeCallback = function (script) {
                 script,
             '</script>',
         '</html>'
-    ].join();
+    ].join('');
 };
 
 module.exports = exports = mockup;

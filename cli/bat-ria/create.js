@@ -1,7 +1,7 @@
 /**
  * 创建内容
  *
- * @inner
+ * @ignore
  * @type {Object}
  */
 var cli = {};

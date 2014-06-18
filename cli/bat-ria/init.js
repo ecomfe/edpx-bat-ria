@@ -1,7 +1,7 @@
 /**
  * 初始化系统代码框架
  *
- * @inner
+ * @ignore
  * @type {Object}
  */
 var cli = {};
@@ -132,20 +132,34 @@ cli.main = function ( args, opts ) {
 
         var Deferred = require( 'edp-core' ).Deferred;
         var edpPackage = require( 'edp-package' );
-        var exec = require( 'child_process' ).exec;
+
+        var spawn = process.env.comspec ? function( command, args, options ){
+            var spawn = require( 'child_process' ).spawn;
+            return spawn(
+                process.env.comspec,
+                [ '/c', command ].concat( args ),
+                options
+            );
+        } : function ( command, args, options ) {
+            var spawn = require( 'child_process' ).spawn;
+            return spawn( command, args, options );
+        };
 
         function npmInstall( pkg ) {
             return function () {
                 var deferred = new Deferred();
+                var options = {
+                    stdio: 'inherit'
+                };
 
-                exec( 'npm install ' + pkg, function ( error, stdout, stderr ) {
-                    if ( error ) {
-                        console.error( stderr );
-                        deferred.reject( error );
+                var npm = spawn( 'npm', [ 'install', pkg ], options );
+
+                npm.on( 'close', function ( code ) {
+                    if ( code !== 0 ) {
+                        deferred.reject();
                     }
                     else {
-                        console.log( stdout );
-                        deferred.resolve( stdout );
+                        deferred.resolve();
                     }
                 } );
                 return deferred.promise;

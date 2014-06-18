@@ -13,73 +13,82 @@ upload.getLocation = function () {
     return /^\/data\/.+\/upload(?:$|\?)/;
 };
 
-upload.getHandlers = function () {
-    return function(context, uploadType) {
-        context.stop();
-        try {
-            var request = context.request;
-            var handler = mockup.load(request);
+function handler(context, uploadType) {
+    context.stop();
+    try {
+        var request = context.request;
+        var handler = mockup.load(request);
 
-            if (handler) {
-                request.pipe = function (dst) {
-                    dst.write(request.bodyBuffer);
-                    dst.end();
+        if (handler) {
+            request.pipe = function (dst) {
+                dst.write(request.bodyBuffer);
+                dst.end();
+            };
+            var form = new multiparty.Form();
+            form.parse(request, function(err, fields, files) {
+                if (err) {
+                    logger.error('edp', 'ERROR', err.message.toString());
+                    context.status = 500;
+                    context.start();
+                    return;
+                }
+
+                var timeout = handler.timeout;
+                var fileInfo = files.filedata[0];
+
+                if (!fs.existsSync('mockup/tmp/')) {
+                    fs.mkdirSync('mockup/tmp/');
+                }
+                fs.rename(fileInfo.path, 'mockup/tmp/' + fileInfo.originalFilename);
+
+                logger.ok('edp', 'OK', 'File `' + fileInfo.originalFilename + '` is saved');
+                res = {
+                    url: 'http://' + request.headers.host + '/mockup/tmp/' + fileInfo.originalFilename
                 };
-                var form = new multiparty.Form();
-                form.parse(request, function(err, fields, files) {
-                    if (err) {
-                        logger.error('edp', 'UPLOAD ERROR', err.message.toString());
-                        context.status = 500;
-                        context.start();
-                        return;
-                    }
-
-                    var timeout = handler.timeout;
-                    var fileInfo = files.filedata[0];
-
-                    if (!fs.existsSync('mockup/tmp/')) {
-                        fs.mkdirSync('mockup/tmp/');
-                    }
-                    fs.rename(fileInfo.path, 'mockup/tmp/' + fileInfo.originalFilename);
-
-                    logger.ok('edp', 'UPLOAD', 'File `' + fileInfo.originalFilename + '` is saved');
-                    res = {
-                        url: 'http://' + request.headers.host + '/mockup/tmp/' + fileInfo.originalFilename
-                    };
-                    data = handler.response(request.pathname, {
-                        success: 'true',
-                        callback: fields.callback[0],
-                        fileName: fileInfo.originalFilename,
-                        fileType: fileInfo.originalFilename.split('.').pop(),
-                        result: res
-                    });
-
-                    context.content = data;
-                    context.header['Content-Type'] = 'text/html;charset=UTF-8';
-                    context.status = 200;
-
-                    if (timeout) {
-                        setTimeout(function () {
-                            context.start();
-                        }, timeout);
-                    }
-                    else {
-                        context.start();
-                    }
+                data = handler.response(request.pathname, {
+                    success: 'true',
+                    callback: fields.callback[0],
+                    fileName: fileInfo.originalFilename,
+                    fileType: fileInfo.originalFilename.split('.').pop(),
+                    result: res
                 });
-            }
-            else {
-                logger.error('edp', 'UPLOAD ERROR', 'Mockup data not found for `' + request.pathname + '`');
-                context.status = 404;
-                context.start();
-            }
+
+                context.content = data;
+                context.header['Content-Type'] = 'text/html;charset=UTF-8';
+                context.status = 200;
+
+                if (timeout) {
+                    setTimeout(function () {
+                        context.start();
+                    }, timeout);
+                }
+                else {
+                    context.start();
+                }
+            });
         }
-        catch (e) {
-            logger.error('edp', 'UPLOAD ERROR', e.toString());
-            context.status = 500;
+        else {
+            logger.error('edp', 'ERROR', 'Mockup data not found for `' + request.pathname + '`');
+            context.status = 404;
             context.start();
         }
-    };
+    }
+    catch (e) {
+        logger.error('edp', 'ERROR', e.toString());
+        context.status = 500;
+        context.start();
+    }
+}
+
+upload.getHandler = function () {
+    return handler;
+}
+
+upload.getHandlers = function () {
+    return [
+        handler,
+        proxyNoneExists()
+    ]
 };
 
 module.exports = exports = upload;

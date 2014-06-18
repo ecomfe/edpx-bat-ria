@@ -9,7 +9,7 @@
     "dependencies": {
         "edp-core": ">=1.0.12",
         "edp-project": ">=0.4.16",
-        "edp-package": ">=0.4.4",
+        "edp-package": ">=0.5.0",
         "edp-codegen": ">=0.4.2",
         "edp-config": ">=0.4.2",
         "chalk": "~0.4.0",

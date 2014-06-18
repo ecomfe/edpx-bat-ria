@@ -2,6 +2,10 @@ exports.port = 8848;
 exports.directoryIndexes = true;
 exports.documentRoot = __dirname;
 
+// exports.proxyMap = {
+//     '127.0.0.1:8848': '172.17.xxx.xxx:8080' 
+// };
+
 var mockup = require('./tool/mockup');
 var upload = require('./tool/upload');
 var cors = require('./tool/cors');
@@ -52,11 +56,17 @@ exports.getLocations = function () {
         },
         { 
             location: upload.getLocation(), 
-            handler: upload.getHandlers()
+            handler: [
+                upload.getHandlers(),
+                proxyNoneExists()
+            ]
         },
         {
             location: mockup.getLocation(),
-            handler: mockup.getHandlers()
+            handler: [
+                mockup.getHandlers(),
+                proxyNoneExists()
+            ]
         },
         { 
             location: cors.getLocation(), 
