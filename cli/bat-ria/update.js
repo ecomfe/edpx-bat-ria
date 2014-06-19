@@ -31,6 +31,34 @@ var chalk = require( 'edp-core' ).chalk;
 var read = require( 'read' );
 var logger = require( '../../tool/logger' );
 
+function readConfirm( callback ) {
+    logger.verbose( 'ria', 'INFO', '`bat-ria update` will overwrite files under `tool` directory. Proceed?' );
+    read( {
+        prompt: 'Y / N: ',
+        'default': 'N'
+    }, function ( err, result, isDefault ) {
+        if ( err ) {
+            logger.error( 'ria', 'ERROR', err.message );
+            return;
+        }
+
+        result = result.toLowerCase();
+
+        if ( [ 'y', 'yes', 'n', 'no' ].indexOf( result ) === -1 ) {
+            readEntry( callback );
+        }
+        else {
+            var confirmed = result == 'y' || result == 'yes';
+
+            if ( confirmed ) {
+                callback && callback();
+            }
+            else {
+                logger.info( 'ria', 'INFO', 'Update canceled.' );
+            }
+        }
+    } );
+}
 
 /**
  * 模块命令行运行入口
@@ -47,17 +75,13 @@ cli.main = function ( args ) {
         return;
     }
 
-    var type = args[ 0 ];
-    // no `<type>` specified
-    if ( !type ) {
-        readType( function ( type ) {
-            args[ 0 ] = type;
-            creators[ typeCreator[ type ] ]( projectInfo, args );
-        } );
-    }
-    else {
-        creators[ typeCreator[ type ] ]( projectInfo, args );
-    }
+    readConfirm( function () {
+        var copies = [
+            { source: '../../tool', target: 'tool' }
+        ];
+        require( '../../lib/util/copy' )( projectInfo, copies );
+        logger.info( 'ria', 'INFO', 'Update complete.' );
+    } );
 };
 
 /**

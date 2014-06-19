@@ -18,7 +18,7 @@ define(function (require) {
         index: '/dev/index'
 
         // // 系统名称
-        // systemName: '品牌全景',
+        // systemName: '品牌广告',
 
         // // 导航栏
         // nav: {
