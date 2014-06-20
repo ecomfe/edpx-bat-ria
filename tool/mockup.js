@@ -100,8 +100,11 @@ function handler(context) {
         }
 
         // parse url-encoded post params
+        var reqContentType = context.request.headers[ 'content-type' ];
         var postData = context.request.bodyBuffer || '';
-        var reqBody = qs.parse(postData.toString());
+        var reqBody = reqContentType.indexOf( 'application/json' ) === 0 ?
+            JSON.parse( postData.toString() ) :
+            qs.parse( postData.toString() );
         var data = reqHandler[reqHandlerKey](path, reqBody, context);
 
         var timeout = reqHandler.timeout;
