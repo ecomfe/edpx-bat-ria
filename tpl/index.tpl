@@ -43,8 +43,8 @@ require.config({
 </script>
 {{/loaderConfig}}
 <script>
-require(['{{{entryMainModule}}}'], function (app) {
-    app.start();
+require(['{{{entryMainModule}}}'], function (main) {
+    main.start();
 });
 </script>
 </body>
