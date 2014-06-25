@@ -125,8 +125,7 @@ cli.main = function ( args, opts ) {
 
         var copies = [
             { source: '../../img', target: 'src/common/img' },
-            { source: '../../css', target: 'src/common/css' },
-            { source: '../../tool', target: 'tool' }
+            { source: '../../css', target: 'src/common/css' }
         ];
         require( '../../lib/util/copy' )( projectInfo, copies );
 
@@ -183,7 +182,7 @@ cli.main = function ( args, opts ) {
             };
         }
 
-        var npmPkgs = [ 'chalk', 'multiparty' ];
+        var npmPkgs = [ 'bat-ria-tool' ];
         var edpPkgs = [ 'ef', 'esf-ms', 'bat-ria' ];
 
         var tasks = npmPkgs.map( npmInstall )
