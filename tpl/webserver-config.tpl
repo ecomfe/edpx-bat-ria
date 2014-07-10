@@ -6,9 +6,10 @@ exports.documentRoot = __dirname;
 //     '127.0.0.1:8848': '172.17.xxx.xxx:8080' 
 // };
 
-var mockup = require('./tool/mockup');
-var upload = require('./tool/upload');
-var cors = require('./tool/cors');
+var mockup = require('bat-ria-tool/mockup');
+var upload = require('bat-ria-tool/upload');
+var cors = require('bat-ria-tool/cors');
+var css2file = require('bat-ria-tool/css2file');
 
 exports.getLocations = function () {
     return [
@@ -37,7 +38,8 @@ exports.getLocations = function () {
         {
             location: /\.css($|\?)/,
             handler: [
-                autocss()
+                autocss(),
+                css2file.getHandler()
             ]
         },
         {
@@ -56,17 +58,11 @@ exports.getLocations = function () {
         },
         { 
             location: upload.getLocation(), 
-            handler: [
-                upload.getHandlers(),
-                proxyNoneExists()
-            ]
+            handler: upload.getHandlers()
         },
         {
             location: mockup.getLocation(),
-            handler: [
-                mockup.getHandlers(),
-                proxyNoneExists()
-            ]
+            handler: mockup.getHandlers()
         },
         { 
             location: cors.getLocation(), 

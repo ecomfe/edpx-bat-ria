@@ -51,14 +51,14 @@ exports.response = function (path, params) {
                 email: 'errorrik@gmail.com',
                 age: 13
             }
-        ]
-        // {
-        //     totalCount: params.totalCount || 100,
-        //     pageNo: params.pageNo || 1,
-        //     pageSize: params.pageSize || 15,
-        //     orderBy: params.orderBy || 'id',
-        //     order: params.order || 'desc',
-        // }
+        ],
+        {
+            totalCount: params.totalCount || 100,
+            pageNo: params.pageNo || 1,
+            pageSize: params.pageSize || 15,
+            orderBy: params.orderBy || 'id',
+            order: params.order || 'desc',
+        }
     );
 {{/eq}}{{#eq type "form"}}
     return mockup.ok(
