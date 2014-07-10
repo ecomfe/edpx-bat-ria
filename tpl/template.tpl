@@ -25,7 +25,7 @@
                            data-ui-type="{{type}}"
                            data-ui-required="required"
                            name="{{id}}"
-                           value="{{value}}"/>
+                           data-ui-value="{{value}}" />
                 </div>
             </div>
         {{/fields}}

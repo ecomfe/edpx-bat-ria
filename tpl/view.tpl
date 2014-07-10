@@ -24,23 +24,26 @@ define(function (require) {
     {{{view}}}.prototype.template = '{{{templateTarget}}}';
 {{#eq type "List"}}
     var tableFields = [
-        { 'field': 'id', 'title': 'Id', 'content': 'id' },
-        { 'field': 'name', 'title': 'Name', 'content': 'name' },
-        {
-            'field': 'email',
-            'title': 'Email',
-            'content': function( v ){
-                var email = v.email;
-                return '<a href="mailto:' + email + '">' + email + '</a>';
-            }
-        },
-        {
-            'field': 'age',
-            'title': 'Age',
-            'content': function( v ){
-                return v.age + '岁';
-            }
-        }
+        // {
+        //     field: 'id',
+        //     title: 'ID',
+        //     content: function (item) {
+        //         return '#' + item.id;
+        //     }
+        // },
+        // {
+        //     field: 'name',
+        //     title: 'Name',
+        //     content: 'name'
+        // },
+        // {
+        //     field: 'email',
+        //     title: 'Email',
+        //     content: function (item) {
+        //         var email = v.email;
+        //         return '<a href="mailto:' + email + '">' + email + '</a>';
+        //     }
+        // }
     ];
 {{/eq}}
     /**

@@ -37,8 +37,8 @@ define(function (require) {
      * @inheritDoc
      */
     {{{model}}}.prototype.datasource = {
-        actionList: function( model ){
-            return Object.keys( require('er/controller').actionPathMapping );
+        actionList: function (model){
+            return Object.keys(require('er/controller').actionPathMapping);
         }
     };
 {{/eq}}{{#eq type "List"}}
@@ -61,7 +61,7 @@ define(function (require) {
      */
     {{{model}}}.prototype.getDefaultArgs = function() {
         return {
-            'id': this.get( 'id' )
+            id: this.get('id')
         };
     };
 

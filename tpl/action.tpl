@@ -18,6 +18,18 @@ define(function (require) {
     {{{action}}}.prototype.modelType = require('{{{model}}}');
     {{{action}}}.prototype.viewType = require('{{{view}}}');
 
+    /**
+     * inheritDoc
+     *
+     * @protected
+     * @override
+     */
+    {{{action}}}.prototype.initBehavior = function () {
+        {{{type}}}Action.prototype.initBehavior.apply(this, arguments);
+
+        // bind event handlers here
+    };
+
     require('er/util').inherits({{{action}}}, {{{type}}}Action);
     return {{{action}}};
 });
