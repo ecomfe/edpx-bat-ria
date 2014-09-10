@@ -20,11 +20,11 @@ cli.description = '品牌广告业务端脚手架';
 
 /**
  * 模块命令行运行入口
- * 
+ *
  * @param {Array} args 命令运行参数
  */
 cli.main = function (args) {
-    console.log( 'See `edp bat-ria --help`' );
+    console.log('See `edp bat-ria --help`');
 };
 
 /**

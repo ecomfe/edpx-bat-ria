@@ -27,14 +27,14 @@ cli.description = '添加新内容';
  */
 cli.options = [];
 
-var chalk = require( 'edp-core' ).chalk;
-var read = require( 'read' );
-var logger = require( '../../tool/logger' );
+var chalk = require('edp-core').chalk;
+var read = require('read');
+var logger = require('../../tool/logger');
 
 var creators = {
-    action: require( '../../lib/util/create-action' ),
-    api: require( '../../lib/util/create-api' ),
-    entry: require( '../../lib/util/create-entry' )
+    action: require('../../lib/util/create-action'),
+    api: require('../../lib/util/create-api'),
+    entry: require('../../lib/util/create-entry')
 };
 var typeCreator = {
     action: 'action',
@@ -45,55 +45,55 @@ var typeCreator = {
     entry: 'entry'
 };
 
-function readType( callback ) {
-    logger.verbose( 'ria', 'INFO', 'Please enter <type> for `bat-ria create`.' );
-    console.log( chalk.bold.green( 'action' ) + ' | list | form | api | entry' );
+function readType(callback) {
+    logger.verbose('ria', 'INFO', 'Please enter <type> for `bat-ria create`.');
+    console.log(chalk.bold.green('action') + ' | list | form | api | entry');
     read({
         prompt: '<type>: ',
         'default': 'action'
-    }, function ( err, result, isDefault ) {
-        if ( err ) {
-            logger.error( 'ria', 'ERROR', err.message );
+    }, function (err, result, isDefault) {
+        if (err) {
+            logger.error('ria', 'ERROR', err.message);
             return;
         }
 
         var type = result.toLowerCase();
 
-        if ( !typeCreator[ type ] ) {
-            logger.error( 'ria', 'ERROR', '"' + type + '" is not a valid type for `bat-ria create`.' );
-            readType( callback );
+        if (!typeCreator[type]) {
+            logger.error('ria', 'ERROR', '"' + type + '" is not a valid type for `bat-ria create`.');
+            readType(callback);
             return;
         }
 
-        callback && callback( type );
+        callback && callback(type);
     });
 }
 
 /**
  * 模块命令行运行入口
- * 
+ *
  * @param {Array} args 命令运行参数
  */
-cli.main = function ( args ) {
+cli.main = function (args) {
     var dir = process.cwd();
-    var edpProject = require( 'edp-project' );
-    var projectInfo = edpProject.getInfo( dir );
+    var edpProject = require('edp-project');
+    var projectInfo = edpProject.getInfo(dir);
 
-    if ( !projectInfo ) {
-        logger.error( 'ria', 'ERROR', 'Project info is not found.' );
+    if (!projectInfo) {
+        logger.error('ria', 'ERROR', 'Project info is not found.');
         return;
     }
 
-    var type = args[ 0 ];
+    var type = args[0];
     // no `<type>` specified
-    if ( !type ) {
-        readType( function ( type ) {
-            args[ 0 ] = type;
-            creators[ typeCreator[ type ] ]( projectInfo, args );
-        } );
+    if (!type) {
+        readType(function (type) {
+            args[0] = type;
+            creators[typeCreator[type]](projectInfo, args);
+        });
     }
     else {
-        creators[ typeCreator[ type ] ]( projectInfo, args );
+        creators[typeCreator[type]](projectInfo, args);
     }
 };
 
