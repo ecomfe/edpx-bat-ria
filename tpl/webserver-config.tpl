@@ -3,7 +3,7 @@ exports.directoryIndexes = true;
 exports.documentRoot = __dirname;
 
 // exports.proxyMap = {
-//     '127.0.0.1:8848': '172.17.xxx.xxx:8080' 
+//     '127.0.0.1:8848': '172.17.xxx.xxx:8080'
 // };
 
 var mockup = require('bat-ria-tool/mockup');
@@ -56,16 +56,16 @@ exports.getLocations = function () {
                 stylus()
             ]
         },
-        { 
-            location: upload.getLocation(), 
+        {
+            location: upload.getLocation(),
             handler: upload.getHandlers()
         },
         {
             location: mockup.getLocation(),
             handler: mockup.getHandlers()
         },
-        { 
-            location: cors.getLocation(), 
+        {
+            location: cors.getLocation(),
             handler: cors.getHandlers()
         }
     ];

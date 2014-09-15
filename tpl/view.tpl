@@ -8,16 +8,16 @@ define(function (require) {
     require('bat-ria/tpl!{{{templateFile}}}');
 
     var {{{type}}}View = require('bat-ria/mvc/{{{type}}}View');
-    
+
     /**
      * [Please Input View Description]
-     * 
+     *
      * @constructor
      */
     function {{{view}}}() {
         {{{type}}}View.apply(this, arguments);
     }
-    
+
     /**
      * @inheritDoc
      */
@@ -40,7 +40,7 @@ define(function (require) {
         //     field: 'email',
         //     title: 'Email',
         //     content: function (item) {
-        //         var email = v.email;
+        //         var email = item.email;
         //         return '<a href="mailto:' + email + '">' + email + '</a>';
         //     }
         // }

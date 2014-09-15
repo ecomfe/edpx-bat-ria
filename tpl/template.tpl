@@ -2,6 +2,9 @@
 <div class="{{{classes}}}">
 <h1>{{{target}}}</h1>{{#eq type "List"}}
     <div class="list-header">
+        <div class="list-summary">
+            <h3>列表页标题</h3>
+        </div>
         <form data-ui-type="Form" data-ui-id="filter" class="list-filter">
             <div data-ui-type="Button" data-ui-id="search"
                 data-ui-extension-submit-type="AutoSubmit">搜索</div>
@@ -15,7 +18,7 @@
 {{/eq}}{{#eq type "Form"}}
 <form data-ui-type="Form" data-ui-id="form" data-ui-auto-validate="true" method="POST">
     <div class="form-block">
-        <h3>Form Title</h3>
+        <h3>表单页标题</h3>
         <div class="form-body">
         {{#fields}}
             <div class="form-row">
