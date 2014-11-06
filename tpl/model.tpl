@@ -11,20 +11,20 @@ define(function (require) {
 
     /**
      * [Please Input Model Description]
-     * 
+     *
      * @constructor
      */
     function {{{model}}}() {
         {{{type}}}Model.apply(this, arguments);{{#eq type "List"}}
 
         // 列表请求器 (*)
-        this.listRequester = api.{{{api.list}}};{{/eq}}{{#eq type "Form"}}
+        // this.listRequester = api.someList;{{/eq}}{{#eq type "Form"}}
 
         // 表单数据请求器
-        this.formRequester = api.{{{api.detail}}};
+        // this.formRequester = api.someDetail;
 
         // 表单提交请求器 (*)
-        this.submitRequester = api.{{{api.update}}};{{/eq}}
+        // this.submitRequester = api.someUpdate;{{/eq}}
     }
 
 {{#neq pagePath "/dev/index" }}

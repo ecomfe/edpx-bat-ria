@@ -35,7 +35,7 @@ cli.usage = 'edp bat-ria init';
 cli.options = [];
 
 var read = require('read');
-var logger = require('../../tool/logger');
+var logger = require('bat-ria-tool/logger');
 
 function readEntry(callback) {
     logger.verbose('ria', 'INFO', 'Are you going to initialize a multi-entry project?');
@@ -121,6 +121,8 @@ cli.main = function (args, opts) {
         require('../../lib/util/gen-common-config')(projectInfo, options);
         require('../../lib/util/gen-constants')(projectInfo);
         require('../../lib/util/gen-webserver-config')(projectInfo);
+        require('../../lib/util/gen-test-config')(projectInfo);
+        require('../../lib/util/gen-default-specs')(projectInfo, options);
 
         var copies = [
             { source: '../../img', target: 'src/common/img' },

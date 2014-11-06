@@ -29,12 +29,13 @@ cli.options = [];
 
 var chalk = require('edp-core').chalk;
 var read = require('read');
-var logger = require('../../tool/logger');
+var logger = require('bat-ria-tool/logger');
 
 var creators = {
     action: require('../../lib/util/create-action'),
     api: require('../../lib/util/create-api'),
-    entry: require('../../lib/util/create-entry')
+    entry: require('../../lib/util/create-entry'),
+    test: require('../../lib/util/create-test')
 };
 var typeCreator = {
     action: 'action',
@@ -42,12 +43,13 @@ var typeCreator = {
     list: 'action',
     form: 'action',
     api: 'api',
-    entry: 'entry'
+    entry: 'entry',
+    test: 'test'
 };
 
 function readType(callback) {
     logger.verbose('ria', 'INFO', 'Please enter <type> for `bat-ria create`.');
-    console.log(chalk.bold.green('action') + ' | list | form | api | entry');
+    console.log(chalk.bold.green('action') + ' | list | form | api | entry | test');
     read({
         prompt: '<type>: ',
         'default': 'action'

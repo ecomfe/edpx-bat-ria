@@ -7,6 +7,7 @@
         { "name": "justineo", "email": "justice360@gmail.com" }
     ],
     "dependencies": {
+        "bat-ria-tool": ">=0.1.2",
         "edp-core": ">=1.0.12",
         "edp-project": "~0.6.0",
         "edp-package": "~0.5.0",

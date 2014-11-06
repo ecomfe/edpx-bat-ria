@@ -8,7 +8,7 @@ define(function (require) {
 
     /**
      * Action构造函数
-     * 
+     *
      * @constructor
      */
     function {{{action}}}() {

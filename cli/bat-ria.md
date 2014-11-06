@@ -60,10 +60,10 @@ edp bat-ria create entry <entry-name>
 **这个命令只能在多入口页系统中使用。**
 
 
-## update
+## 转换换行符
 
 ```bash
-edp bat-ria update
+edp bat-ria dos2unix
 ```
 
-更新项目 `tool` 目录下的工具。
+将项目中的换行符统一为 Unix 风格。
