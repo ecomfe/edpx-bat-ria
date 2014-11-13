@@ -1,12 +1,11 @@
 /**
- * @file {{{fileDescription}}}
+ * @file common/config模块单测spec
  * @author {{{author}}}({{{authorEmail}}})
  */
 
 define(function (require) {
-    var config = require('common/config');
-
     describe('config', function () {
+        var config = require('common/config');
 
         it('should be an object', function () {
             expect(typeof config).toBe('object');

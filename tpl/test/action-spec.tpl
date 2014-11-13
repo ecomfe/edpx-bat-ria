@@ -1,15 +1,15 @@
 /**
- * @file {{{fileDescription}}}
+ * @file {{{fullModule}}}模块单测spec
  * @author {{{author}}}({{{authorEmail}}})
  */
 
 define(function (require) {
-    var Action = require('{{{module}}}');
-    var View = require('{{{module}}}View');
-    var Model = require('{{{module}}}Model');
-    var {{{type}}}Action = require('bat-ria/mvc/{{{type}}}Action');
-
-    describe('{{{module}}}', function () {
+    describe('{{{fullModule}}}', function () {
+        var u = require('underscore');
+        var Action = require('{{{fullModule}}}');
+        var View = require('{{{fullModule}}}View');
+        var Model = require('{{{fullModule}}}Model');
+        var {{{type}}}Action = require('bat-ria/mvc/{{{type}}}Action');
         var action = new Action();
 
         it('extends {{{type}}}Action', function () {

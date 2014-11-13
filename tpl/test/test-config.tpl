@@ -1,5 +1,8 @@
-// Test configuration for edp-test
-// Generated on Mon Sep 15 2014 14:54:44 GMT+0800 (中国标准时间)
+/**
+ * @file edp test配置
+ * @author {{{author}}}({{{authorEmail}}})
+ */
+
 module.exports = {
 
     // base path, that will be used to resolve files and exclude
@@ -55,6 +58,12 @@ module.exports = {
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
     singleRun: false,
+
+    // Custom HTML templates
+    // context | debug | runner
+    templates: {
+        context: 'context.html'
+    },
 
     requireConfig: {
         baseUrl: '../src',

@@ -1,27 +1,25 @@
 /**
- * @file {{{fileDescription}}}
+ * @file {{{entryName}}}/main模块单测spec
  * @author {{{author}}}({{{authorEmail}}})
  */
 
 define(function (require) {
-    var main = require('{{{entryName}}}/main');
-    var Deferred = require('er/Deferred');
-    var controller = require('er/controller');
-    var URL = require('er/URL');
-    var ria = require('bat-ria/main');
-    var u = require('underscore');
-
-    function fakePromise(isResolved) {
-        if (isResolved || isResolved === undefined) {
-            return Deferred.resolved();
-        }
-        else {
-            return Deferred.rejected();
-        }
-    }
-
     describe('main', function () {
+        var main = require('{{{entryName}}}/main');
+        var Deferred = require('er/Deferred');
+        var controller = require('er/controller');
+        var URL = require('er/URL');
+        var ria = require('bat-ria/main');
+        var u = require('underscore');
 
+        function fakePromise(isResolved) {
+            if (isResolved || isResolved === undefined) {
+                return Deferred.resolved();
+            }
+            else {
+                return Deferred.rejected();
+            }
+        }
 
         beforeEach(function () {
             Deferred.prototype.syncModeEnabled = true;
@@ -37,9 +35,7 @@ define(function (require) {
 
             // Action配置
             // 如果期望添加action时工具自动配置，请保持actionPaths名称不变
-            var actionPaths = [
-                '/dev/index'
-            ];
+            var actionPaths = [];
 
             var actionContexts = u.map(actionPaths, function (path) {
                 return {

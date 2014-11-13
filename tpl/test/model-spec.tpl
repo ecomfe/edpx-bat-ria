@@ -1,13 +1,12 @@
 /**
- * @file {{{fileDescription}}}
+ * @file {{{fullModule}}}Model模块单测spec
  * @author {{{author}}}({{{authorEmail}}})
  */
 
 define(function (require) {
-    var Model = require('{{{module}}}Model');
-    var {{{type}}}Model = require('bat-ria/mvc/{{{type}}}Model');
-
-    describe('{{{module}}}Model', function () {
+    describe('{{{fullModule}}}Model', function () {
+        var Model = require('{{{fullModule}}}Model');
+        var {{{type}}}Model = require('bat-ria/mvc/{{{type}}}Model');
         var model = new Model();
 
         it('extends {{{type}}}Model', function () {
