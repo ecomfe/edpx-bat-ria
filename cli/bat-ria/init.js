@@ -126,8 +126,7 @@ cli.main = function (args, opts) {
 
         var copies = [
             { source: '../../asset/img', target: 'src/common/img' },
-            { source: '../../asset/css', target: 'src/common/css' },
-            { source: '../../asset/test', target: 'test' }
+            { source: '../../asset/css', target: 'src/common/css' }
         ];
         require('../../lib/util/copy')(projectInfo, copies);
 

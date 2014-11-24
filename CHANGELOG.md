@@ -1,3 +1,7 @@
+* 0.2.1
+    - 增加了在 `create test` 时自动复制 `context.html` 的逻辑
+    - 在 `context.html` 中自动补充了激活 `bat-ria/extension/underscore` 扩展的功能
+
 * 0.2.0
     - 修正了 `tool` 模块引用错误导致无法正常执行的问题
     - 增加单测生成功能
