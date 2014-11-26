@@ -19,8 +19,6 @@ define(function (require) {
     {{{action}}}.prototype.viewType = require('{{{view}}}');
 
     /**
-     * inheritDoc
-     *
      * @protected
      * @override
      */
