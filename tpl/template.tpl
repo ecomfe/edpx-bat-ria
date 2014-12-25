@@ -25,10 +25,10 @@
                 <div class="form-key">{{label}}：</div>
                 <div class="form-value">
                     <input data-ui-id="{{id}}"
-                           data-ui-type="{{type}}"
-                           data-ui-required="required"
-                           name="{{id}}"
-                           data-ui-value="{{value}}" />
+                        data-ui-type="{{type}}"
+                        data-ui-required="required"
+                        name="{{id}}"
+                        data-ui-value="{{value}}" />
                 </div>
             </div>
         {{/fields}}

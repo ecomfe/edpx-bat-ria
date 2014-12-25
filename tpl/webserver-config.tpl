@@ -9,7 +9,6 @@ exports.documentRoot = __dirname;
 var mockup = require('bat-ria-tool/mockup');
 var upload = require('bat-ria-tool/upload');
 var cors = require('bat-ria-tool/cors');
-var css2file = require('bat-ria-tool/css2file');
 
 exports.getLocations = function () {
     return [
@@ -38,8 +37,7 @@ exports.getLocations = function () {
         {
             location: /\.css($|\?)/,
             handler: [
-                autocss(),
-                css2file.getHandler()
+                autocss()
             ]
         },
         {
