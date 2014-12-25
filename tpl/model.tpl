@@ -59,7 +59,7 @@ define(function (require) {
     /**
      * @inheritDoc
      */
-    {{{model}}}.prototype.getDefaultArgs = function() {
+    {{{model}}}.prototype.getDefaultArgs = function () {
         return {
             id: this.get('id')
         };

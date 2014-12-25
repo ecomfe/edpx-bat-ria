@@ -204,7 +204,7 @@ cli.main = function (args, opts) {
                 // 生成默认的API配置和mockup
                 var createApi = require('../../lib/util/create-api');
                 createApi(projectInfo, ['api', 'constants', '/data/system/constants', 'ok']);
-                createApi(projectInfo, ['api', 'user', '/data/system/user', 'session']);
+                createApi(projectInfo, ['api', 'user', '/data/system/session', 'session']);
 
                 var createAction = require('../../lib/util/create-action');
                 createAction(projectInfo, ['action', '/dev/index', entry]);
