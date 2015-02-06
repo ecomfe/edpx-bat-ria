@@ -1,6 +1,6 @@
 var mockup = require('{{{toolModule}}}');
 
-exports.response = function (path, params) {
+exports.response = function (path, params, extraData) {
 {{#eq type "session"}}
     return mockup.session(
         // {
@@ -55,9 +55,9 @@ exports.response = function (path, params) {
         {
             totalCount: params.totalCount || 100,
             pageNo: params.pageNo || 1,
-            pageSize: params.pageSize || 15,
-            orderBy: params.orderBy || 'id',
-            order: params.order || 'desc',
+            pageSize: params.pageSize || 20,
+            orderBy: params.orderBy || '',
+            order: params.order || '',
         }
     );
 {{/eq}}{{#eq type "form"}}
@@ -89,5 +89,7 @@ exports.response = function (path, params) {
     return mockup.iframeCallback(
         (params && params.callback) + '(' + JSON.stringify(params) + ');'
     );
+{{/eq}}{{#eq type "page"}}
+    return extraData.page;
 {{/eq}}
 };
