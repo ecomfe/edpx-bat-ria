@@ -1,4 +1,7 @@
 * 0.2.1
+    - 去除了 `webserver-config.tpl` 中的 `css2file`
+    - `bat-ria init` 时不再生成 `dev` Action
+    - 按 `fecs` 检查结果优化了 `tpl` 目录下模板的代码格式
     - 增加了在 `create test` 时自动复制 `context.html` 的逻辑
     - 在 `context.html` 中自动补充了激活 `bat-ria/extension/underscore` 扩展的功能
 

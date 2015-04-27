@@ -1,20 +1,19 @@
 <!-- target: {{{target}}} -->
 <div class="{{{classes}}}">
 <h1>{{{target}}}</h1>{{#eq type "List"}}
-    <div class="list-header">
-        <div class="list-summary">
-            <h3>列表页标题</h3>
-        </div>
-        <form data-ui-type="Form" data-ui-id="filter" class="list-filter">
-            <div data-ui-type="Button" data-ui-id="search"
-                data-ui-extension-submit-type="AutoSubmit">搜索</div>
-        </form>
-        <div class="list-batch">
-            <div data-ui-type="Button" data-ui-id="create" data-ui-skin="spring-add">新建</div>
-        </div>
-    </div>
-    <!-- import: listTableWithCommand -->
-    <!-- import: listPager -->
+<!-- import: listPage -->
+    <!-- block: summaryContent -->
+    <h3>列表页标题</h3>
+    <!-- /block -->
+    <!-- block: filterContent -->
+    <input type="text" data-ui-type="TextBox" data-ui-id="keyword" name="keyword">
+    <div data-ui-type="Button" data-ui-id="search"
+        data-ui-extension-submit-type="AutoSubmit">搜索</div>
+    <!-- /block -->
+    <!-- block: batchContent -->
+    <div data-ui-type="Button" data-ui-id="create" data-ui-skin="spring-add">新建</div>
+    <!-- /block -->
+<!-- /import -->
 {{/eq}}{{#eq type "Form"}}
 <form data-ui-type="Form" data-ui-id="form" data-ui-auto-validate="true" method="POST">
     <div class="form-block">

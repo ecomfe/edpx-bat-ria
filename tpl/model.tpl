@@ -37,7 +37,7 @@ define(function (require) {
      * @inheritDoc
      */
     {{{model}}}.prototype.datasource = {
-        actionList: function (model){
+        actionList: function (model) {
             return Object.keys(require('er/controller').actionPathMapping);
         }
     };
