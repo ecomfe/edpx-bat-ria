@@ -120,6 +120,7 @@ cli.main = function (args, opts) {
         require('../../lib/util/gen-main-module')(projectInfo, options);
         require('../../lib/util/gen-common-config')(projectInfo, options);
         require('../../lib/util/gen-constants')(projectInfo);
+        require('../../lib/util/gen-build-config')(projectInfo, options);
         require('../../lib/util/gen-webserver-config')(projectInfo);
         require('../../lib/util/gen-test-config')(projectInfo);
         require('../../lib/util/gen-default-specs')(projectInfo, options);
@@ -206,8 +207,8 @@ cli.main = function (args, opts) {
                 createApi(projectInfo, ['api', 'constants', '/data/system/constants', 'ok']);
                 createApi(projectInfo, ['api', 'user', '/data/system/user', 'session']);
 
-                var createAction = require('../../lib/util/create-action');
-                createAction(projectInfo, ['action', '/dev/index', entry]);
+                // var createAction = require('../../lib/util/create-action');
+                // createAction(projectInfo, ['action', '/dev/index', entry]);
 
                 // 更新本地的配置文件
                 var updateLoaderConfig = require('edp-project/cli/project/updateLoaderConfig');
