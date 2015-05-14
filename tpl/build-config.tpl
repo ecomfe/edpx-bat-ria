@@ -9,7 +9,7 @@ exports.output = path.resolve( __dirname, 'output' );
 exports.getProcessors = function () {
     var lessProcessor = new LessCompiler({
         files: [
-            '{{#if entryName}}src/{{entryName}}/main.less{{else}}src/common/main.less{{/if}}'
+            '{{#if entryName}}src/{{entryName}}/main.less{{else}}src/common/css/main.less{{/if}}'
         ],
         pageFiles: [
             '{{#if entryName}}entry/{{entryName}}.html{{else}}index.html{{/if}}'
