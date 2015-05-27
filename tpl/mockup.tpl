@@ -1,6 +1,6 @@
 var mockup = require('{{{toolModule}}}');
 
-exports.response = function (path, params, extraData) {
+exports.response = function (path, params) {
 {{#eq type "session"}}
     return mockup.session(
         // {
@@ -90,6 +90,16 @@ exports.response = function (path, params, extraData) {
         (params && params.callback) + '(' + JSON.stringify(params) + ');'
     );
 {{/eq}}{{#eq type "page"}}
-    return extraData.page;
+    return [
+        '<!DOCTYPE html>\n',
+        '<html>\n',
+        '    <head>\n',
+        '        <meta charset="utf-8" />\n',
+        '    </head>\n',
+        '    <body>\n',
+        '        Hello World!\n',
+        '    </body>\n',
+        '</html>'
+    ].join('');
 {{/eq}}
 };
