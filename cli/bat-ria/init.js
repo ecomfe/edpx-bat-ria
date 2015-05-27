@@ -124,11 +124,10 @@ cli.main = function (args, opts) {
         require('../../lib/util/gen-webserver-config')(projectInfo);
         require('../../lib/util/gen-test-config')(projectInfo);
         require('../../lib/util/gen-default-specs')(projectInfo, options);
-        require('../../lib/util/gen-git2svn-hook')(projectInfo, options);
 
         var copies = [
-            { source: '../../asset/img', target: 'src/common/img' },
-            { source: '../../asset/css', target: 'src/common/css' }
+            {source: '../../asset/img', target: 'src/common/img'},
+            {source: '../../asset/css', target: 'src/common/css'}
         ];
         require('../../lib/util/copy')(projectInfo, copies);
 
