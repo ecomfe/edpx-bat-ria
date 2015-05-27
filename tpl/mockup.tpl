@@ -57,7 +57,7 @@ exports.response = function (path, params, extraData) {
             pageNo: params.pageNo || 1,
             pageSize: params.pageSize || 20,
             orderBy: params.orderBy || '',
-            order: params.order || '',
+            order: params.order || ''
         }
     );
 {{/eq}}{{#eq type "form"}}
