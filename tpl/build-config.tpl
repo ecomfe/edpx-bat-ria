@@ -73,6 +73,7 @@ exports.exclude = [
     'test',
     'module.conf',
     'node_modules',
+    'mockup',
     'dep/packages.manifest',
     'dep/*/*/test',
     'dep/*/*/doc',
