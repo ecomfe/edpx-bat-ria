@@ -4,6 +4,7 @@
     - 按 `fecs` 检查结果优化了 `tpl` 目录下模板的代码格式
     - 增加了在 `create test` 时自动复制 `context.html` 的逻辑
     - 在 `context.html` 中自动补充了激活 `bat-ria/extension/underscore` 扩展的功能
+    - 增加了一种新的 mockup 类型：`page`
 
 * 0.2.0
     - 修正了 `tool` 模块引用错误导致无法正常执行的问题
