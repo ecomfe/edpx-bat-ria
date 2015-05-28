@@ -9,6 +9,7 @@ exports.documentRoot = __dirname;
 var mockup = require('bat-ria-tool/mockup');
 var upload = require('bat-ria-tool/upload');
 var cors = require('bat-ria-tool/cors');
+var page = require('bat-ria-tool/page');
 
 exports.getLocations = function () {
     return [
