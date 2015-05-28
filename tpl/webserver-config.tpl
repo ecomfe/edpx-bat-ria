@@ -16,7 +16,7 @@ exports.getLocations = function () {
             location: function(request) {
                 return /\/$/.test(request.pathname);
             },
-            handler: home( 'index.html' )
+            handler: home('index.html')
         },
         {
             location: /^\/redirect-local/,
@@ -69,8 +69,8 @@ exports.getLocations = function () {
     ];
 };
 
-exports.injectResource = function ( res ) {
-    for ( var key in res ) {
-        global[ key ] = res[ key ];
+exports.injectResource = function (res) {
+    for (var key in res) {
+        global[key] = res[key];
     }
 };

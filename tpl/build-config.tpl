@@ -1,7 +1,7 @@
 exports.input = __dirname;
 
-var path = require( 'path' );
-exports.output = path.resolve( __dirname, 'output' );
+var path = require('path');
+exports.output = path.resolve(__dirname, 'output');
 
 // var moduleEntries = 'html,htm,phtml,tpl,vm,js';
 // var pageEntries = 'html,htm,phtml,tpl,vm';
@@ -51,8 +51,8 @@ exports.getProcessors = function () {
             '**/*.js'
         ],
         replacements: [
-            { from: /entry\/([a-zA-Z0-9_]+)\.html/g, to: '$1/index.html' },
-            { from: /src\/common\/img/g, to: 'asset/common/img' }
+            {from: /entry\/([a-zA-Z0-9_]+)\.html/g, to: '$1/index.html'},
+            {from: /src\/common\/img/g, to: 'asset/common/img'}
         ]
     });
 {{/entryName}}
