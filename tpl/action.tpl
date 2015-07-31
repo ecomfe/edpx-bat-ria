@@ -7,9 +7,9 @@ define(function (require) {
     var {{{type}}}Action = require('bat-ria/mvc/{{{type}}}Action');
 
     /**
-     * Action构造函数
+     * {{{action}}}构造函数
      *
-     * @constructor
+     * @class
      */
     function {{{action}}}() {
         {{{type}}}Action.apply(this, arguments);
@@ -20,7 +20,7 @@ define(function (require) {
 
     /**
      * @protected
-     * @override
+     * @inheritdoc
      */
     {{{action}}}.prototype.initBehavior = function () {
         {{{type}}}Action.prototype.initBehavior.apply(this, arguments);

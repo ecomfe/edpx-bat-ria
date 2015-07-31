@@ -10,16 +10,16 @@ define(function (require) {
     var {{{type}}}View = require('bat-ria/mvc/{{{type}}}View');
 
     /**
-     * [Please Input View Description]
+     * {{{view}}}构造函数
      *
-     * @constructor
+     * @class
      */
     function {{{view}}}() {
         {{{type}}}View.apply(this, arguments);
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     {{{view}}}.prototype.template = '{{{templateTarget}}}';
 {{#eq type "List"}}
@@ -47,7 +47,7 @@ define(function (require) {
     ];
 {{/eq}}
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     {{{view}}}.prototype.uiProperties = {
 {{#eq type "List"}}
@@ -60,7 +60,7 @@ define(function (require) {
     };
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     {{{view}}}.prototype.uiEvents = {};
 

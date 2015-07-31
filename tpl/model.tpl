@@ -10,9 +10,9 @@ define(function (require) {
     var batUtil = require('bat-ria/util');
 
     /**
-     * [Please Input Model Description]
+     * {{{model}}}构造函数
      *
-     * @constructor
+     * @class
      */
     function {{{model}}}() {
         {{{type}}}Model.apply(this, arguments);{{#eq type "List"}}
@@ -29,12 +29,12 @@ define(function (require) {
 
 {{#neq pagePath "/dev/index" }}
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     {{{model}}}.prototype.datasource = null;
 {{/neq}}{{#eq pagePath "/dev/index" }}
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     {{{model}}}.prototype.datasource = {
         actionList: function (model) {
@@ -43,12 +43,12 @@ define(function (require) {
     };
 {{/eq}}{{#eq type "List"}}
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     // {{{model}}}.prototype.defaultTimeRange = batUtil.getTimeRange();
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     {{{model}}}.prototype.defaultArgs = {
         order: 'desc',
@@ -57,7 +57,7 @@ define(function (require) {
 {{/eq}}
 {{#eq type "Form"}}
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     {{{model}}}.prototype.getDefaultArgs = function () {
         return {
@@ -66,7 +66,7 @@ define(function (require) {
     };
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     {{{model}}}.prototype.getExtraData = function () {
         return {};

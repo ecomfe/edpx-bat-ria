@@ -40,7 +40,7 @@ exports.getProcessors = function () {
 {{#entryName}}
     var pathMapperProcessor = new PathMapper({
         mapper: function (value) {
-            return value.replace(/entry\/([a-zA-Z0-9_]+)\.html/g, '$1/index$2.html').replace('src', 'asset');
+            return value.replace(/entry\/([a-zA-Z0-9_]+)\.html/g, '$1/index.html').replace('src', 'asset');
         }
     });
 
