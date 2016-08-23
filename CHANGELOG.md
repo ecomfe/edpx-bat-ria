@@ -1,3 +1,6 @@
+* 0.3.0
+    - 增加了 ESNext 语法的支持
+
 * 0.2.1
     - 去除了 `webserver-config.tpl` 中的 `css2file`
     - `bat-ria init` 时不再生成 `dev` Action
