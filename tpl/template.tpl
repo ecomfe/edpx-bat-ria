@@ -1,7 +1,7 @@
 <!-- target: {{{target}}} -->
 <div class="{{{classes}}}">
-<h1>{{{target}}}</h1>{{#eq type "List"}}
-<!-- import: listPage -->
+<h1>{{{target}}}</h1>
+{{#eq type "List"}}<!-- import: listPage -->
     <!-- block: summaryContent -->
     <h3>列表页标题</h3>
     <!-- /block -->
@@ -14,8 +14,7 @@
     <div data-ui-type="Button" data-ui-id="create" data-ui-skin="spring-add">新建</div>
     <!-- /block -->
 <!-- /import -->
-{{/eq}}{{#eq type "Form"}}
-<form data-ui-type="Form" data-ui-id="form" data-ui-auto-validate="true" method="POST">
+{{/eq}}{{#eq type "Form"}}<form data-ui-type="Form" data-ui-id="form" data-ui-auto-validate="true" method="POST">
     <div class="form-block">
         <h3>表单页标题</h3>
         <div class="form-body">

@@ -8,16 +8,7 @@ import user from 'bat-ria/system/user';
 import nav from 'bat-ria/ui/navigator';
 import main from 'bat-ria/main';
 
-/**
- * 引入各业务模块的Action配置
- * 如果期望添加action时工具自动配置，请保持requireConfigs名称不变
- *
- * @ignore
- */
-function requireConfigs() {
-}
-
-requireConfigs();
+// 业务模块的Action配置（如果期望工具自动添加配置，请保留本段注释）
 
 /**
  * 初始化UI，填写用户信息、初始化导航栏等
