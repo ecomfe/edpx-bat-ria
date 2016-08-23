@@ -32,7 +32,11 @@ cli.usage = 'edp bat-ria init';
  *
  * @type {Array}
  */
-cli.options = [];
+cli.options = [
+    'es-next',
+    'no-npm',
+    'no-dep'
+];
 
 var read = require('read');
 var logger = require('bat-ria-tool/logger');
@@ -102,6 +106,10 @@ cli.main = function (args, opts) {
         dir = process.cwd();
     }
 
+    var isESNext = opts['es-next'] === true;
+    var isNoNPM = opts['no-npm'] === true;
+    var isNoDep = opts['no-dep'] === true;
+
     readEntry(function (entry) {
 
         var edpProject = require('edp-project');
@@ -114,12 +122,13 @@ cli.main = function (args, opts) {
         entry = entry || '';
 
         var options = {
+            isESNext: isESNext,
             entryName: entry
         };
 
         require('../../lib/util/gen-main-module')(projectInfo, options);
         require('../../lib/util/gen-common-config')(projectInfo, options);
-        require('../../lib/util/gen-constants')(projectInfo);
+        require('../../lib/util/gen-constants')(projectInfo, options);
         require('../../lib/util/gen-build-config')(projectInfo, options);
         require('../../lib/util/gen-webserver-config')(projectInfo);
         require('../../lib/util/gen-test-config')(projectInfo);
@@ -153,7 +162,7 @@ cli.main = function (args, opts) {
                     stdio: 'inherit'
                 };
 
-                var npm = spawn('npm', ['install', pkg], options);
+                var npm = spawn('npm', ['install', pkg, '--save-dev'], options);
 
                 npm.on('close', function (code) {
                     if (code !== 0) {
@@ -185,7 +194,13 @@ cli.main = function (args, opts) {
         }
 
         var npmPkgs = ['bat-ria-tool'];
-        var edpPkgs = ['ef', 'esf-ms', 'bat-ria'];
+        if (isNoNPM) {
+            npmPkgs = [];
+        }
+        var edpPkgs = ['ef', 'bat-ria', 'est'];
+        if (isNoDep) {
+            edpPkgs = [];
+        }
 
         var tasks = npmPkgs.map(npmInstall)
             .concat(edpPkgs.map(edpImport));
@@ -195,7 +210,7 @@ cli.main = function (args, opts) {
             .reduce(function (prev, task) {
                 return prev.then(task);
             }, Deferred.resolved())
-            .then(function () {
+            .done(function () {
                 require('../../lib/util/gen-main-less')(projectInfo, options);
                 require('../../lib/util/gen-index')(projectInfo, options);
                 if (entry) {
@@ -213,6 +228,8 @@ cli.main = function (args, opts) {
                 // 更新本地的配置文件
                 var updateLoaderConfig = require('edp-project/cli/project/updateLoaderConfig');
                 updateLoaderConfig.cli.main();
+            }).fail(function (err) {
+                logger.error('ria', 'ERROR', err);
             });
     });
 

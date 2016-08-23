@@ -25,7 +25,9 @@ cli.description = '添加新内容';
  *
  * @type {Array}
  */
-cli.options = [];
+cli.options = [
+    'es-next'
+];
 
 var chalk = require('edp-core').chalk;
 var read = require('read');
@@ -75,8 +77,9 @@ function readType(callback) {
  * 模块命令行运行入口
  *
  * @param {Array} args 命令运行参数
+ * @param {Object} opts 命令运行选项
  */
-cli.main = function (args) {
+cli.main = function (args, opts) {
     var dir = process.cwd();
     var edpProject = require('edp-project');
     var projectInfo = edpProject.getInfo(dir);
@@ -86,16 +89,21 @@ cli.main = function (args) {
         return;
     }
 
+    var isESNext = opts['es-next'] === true;
+    var options = {
+        isESNext: isESNext
+    };
+
     var type = args[0];
     // no `<type>` specified
     if (!type) {
         readType(function (type) {
             args[0] = type;
-            creators[typeCreator[type]](projectInfo, args);
+            creators[typeCreator[type]](projectInfo, args, options);
         });
     }
     else {
-        creators[typeCreator[type]](projectInfo, args);
+        creators[typeCreator[type]](projectInfo, args, options);
     }
 };
 
