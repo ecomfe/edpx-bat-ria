@@ -26,7 +26,7 @@ cli.description = '添加新内容';
  * @type {Array}
  */
 cli.options = [
-    'es-next'
+    'esnext:'
 ];
 
 var chalk = require('edp-core').chalk;
@@ -89,7 +89,13 @@ cli.main = function (args, opts) {
         return;
     }
 
-    var isESNext = opts['es-next'] === true;
+    var config = require('../../lib/util/rc')(projectInfo);
+    var isESNext = config.esnext;
+
+    if ('esnext' in opts) {
+        isESNext = opts['esnext'] !== 'false';
+    }
+
     var options = {
         isESNext: isESNext
     };

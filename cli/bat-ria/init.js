@@ -33,9 +33,9 @@ cli.usage = 'edp bat-ria init';
  * @type {Array}
  */
 cli.options = [
-    'es-next',
-    'no-npm',
-    'no-dep'
+    'esnext',
+    'nonpm',
+    'nodep'
 ];
 
 var read = require('read');
@@ -106,9 +106,9 @@ cli.main = function (args, opts) {
         dir = process.cwd();
     }
 
-    var isESNext = opts['es-next'] === true;
-    var isNoNPM = opts['no-npm'] === true;
-    var isNoDep = opts['no-dep'] === true;
+    var isESNext = opts['esnext'] === true;
+    var isNoNPM = opts['nonpm'] === true;
+    var isNoDep = opts['nodep'] === true;
 
     readEntry(function (entry) {
 
@@ -126,6 +126,7 @@ cli.main = function (args, opts) {
             entryName: entry
         };
 
+        require('../../lib/util/rc')(projectInfo, 'esnext', isESNext);
         require('../../lib/util/gen-main-module')(projectInfo, options);
         require('../../lib/util/gen-common-config')(projectInfo, options);
         require('../../lib/util/gen-constants')(projectInfo, options);
