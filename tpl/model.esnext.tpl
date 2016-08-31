@@ -12,6 +12,7 @@ import {api} from 'common/config';
  * {{{model}}}类
  *
  * @class
+ * @extends bat-ria/mvc/{{{type}}}Model
  */
 export default class {{{model}}} extends {{{type}}}Model {
 

@@ -9,14 +9,14 @@
 </head>
 
 <body>
-    <div class="header">
-        <a class="logo" href="#"><img alt="" title="" src="{{{imgDir}}}/logo.png" width="177" height="34"></a>
-        <ul id="nav" class="nav"></ul>
-        <div class="user-info">
-            <a class="user-name"></a>
-            <a href="/user/logout">退出</a>
-        </div>
+<div class="header">
+    <a class="logo" href="#"><img alt="" title="" src="{{{imgDir}}}/logo.png" width="177" height="34"></a>
+    <ul id="nav" class="nav"></ul>
+    <div class="user-info">
+        <a class="user-name"></a>
+        <a href="/user/logout">退出</a>
     </div>
+</div>
 {{{bodyMain}}}
 {{#loaderConfig}}
 <script>

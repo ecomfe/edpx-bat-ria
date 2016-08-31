@@ -7,7 +7,7 @@ import {{{type}}}View from 'bat-ria/mvc/{{{type}}}View';
 {{#eq type "List"}}import {escape} from 'underscore';
 import {genListOperations} from 'bat-ria/util';
 
-var tableFields = [
+let tableFields = [
     // {
     //     field: 'id',
     //     title: 'ID',
@@ -24,7 +24,7 @@ var tableFields = [
     //     field: 'email',
     //     title: 'Email',
     //     content(item) {
-    //         var email = escape(item.email);
+    //         let email = escape(item.email);
     //         return '<a href="mailto:' + email + '">' + email + '</a>';
     //     }
     // }
