@@ -72,13 +72,13 @@ export default class {{{model}}} extends {{{type}}}Model {
         return {
             id: this.get('id')
         };
-    };
+    }
 
     /**
      * @override
      */
     getExtraData() {
         return {};
-    };
+    }
 {{/eq}}
 }
