@@ -37,7 +37,8 @@ var creators = {
     action: require('../../lib/util/create-action'),
     api: require('../../lib/util/create-api'),
     entry: require('../../lib/util/create-entry'),
-    test: require('../../lib/util/create-test')
+    test: require('../../lib/util/create-test'),
+    auth: require('../../lib/util/create-auth')
 };
 var typeCreator = {
     action: 'action',
@@ -46,12 +47,13 @@ var typeCreator = {
     form: 'action',
     api: 'api',
     entry: 'entry',
-    test: 'test'
+    test: 'test',
+    auth: 'auth'
 };
 
 function readType(callback) {
     logger.verbose('ria', 'INFO', 'Please enter <type> for `bat-ria create`.');
-    console.log(chalk.bold.green('action') + ' | list | form | api | entry | test');
+    console.log(chalk.bold.green('action') + ' | list | form | api | entry | test | auth');
     read({
         prompt: '<type>: ',
         'default': 'action'
