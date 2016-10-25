@@ -41,3 +41,11 @@ edp bat-ria create entry <entry-name>
 * `<entry-name` - 入口页名称
 
 **这个命令只能在多入口页系统中使用。**
+
+### 创建 Auth
+
+```bash
+edp bat-ria create auth
+```
+
+用来生成锦囊风格的 `modules_tree.txt` 和 `auth.txt`，由于er2-3升级的原因，目前无法完全生成，生成的内容为大部分可预判的结构，注意手动修改。

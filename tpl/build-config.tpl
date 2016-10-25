@@ -59,8 +59,8 @@ exports.getProcessors = function () {
     var addCopyright = new AddCopyright();
 
     return {
-        'debug': [ lessProcessor ],
-        'default': [ lessProcessor, moduleProcessor{{#entryName}}, pathMapperProcessor, stringReplacer{{/entryName}} ],
+        'debug': [lessProcessor],
+        'default': [lessProcessor, moduleProcessor{{#entryName}}, pathMapperProcessor, stringReplacer{{/entryName}}],
         'release': [
             lessProcessor, cssProcessor, moduleProcessor, tplMergeProcessor,
             jsProcessor{{#entryName}}, pathMapperProcessor, stringReplacer{{/entryName}}, addCopyright
@@ -81,23 +81,17 @@ exports.exclude = [
     'dep/*/*/*.md',
     'dep/*/*/package.json',
     'edp-*',
-    '.edpproj',
-    '.svn',
-    '.git',
-    '.gitignore',
-    '.idea',
-    '.project',
     'Desktop.ini',
     'Thumbs.db',
-    '.DS_Store',
+    'GIT_COMMIT',
     '*.tmp',
     '*.bak',
     '*.swp',
-    'GIT_COMMIT'
+    '.*'
 ];
 
-exports.injectProcessor = function ( processors ) {
-    for ( var key in processors ) {
-        global[ key ] = processors[ key ];
+exports.injectProcessor = function (processors) {
+    for (var key in processors) {
+        global[key] = processors[key];
     }
 };

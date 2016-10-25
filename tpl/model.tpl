@@ -5,9 +5,8 @@
 
 define(function (require) {
     var {{{type}}}Model = require('bat-ria/mvc/{{{type}}}Model');
-    var datasource = require('er/datasource');
     var api = require('common/config').api;
-    var batUtil = require('bat-ria/util');
+    // var batUtil = require('bat-ria/util');
 
     /**
      * {{{model}}}构造函数
@@ -52,6 +51,7 @@ define(function (require) {
      */
     {{{model}}}.prototype.defaultArgs = {
         order: 'desc',
+        orderBy: 'id',
         pageSize: 15
     };
 {{/eq}}
